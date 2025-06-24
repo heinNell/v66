@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // ─── React & Context ─────────────────────────────────────────────
 import React, { useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
@@ -9,7 +8,7 @@ import { ActionItem } from '../../types/index';
 // ─── UI Components ───────────────────────────────────────────────
 import Modal from '../ui/Modal';
 import Button from '../ui/Button';
-import { Input, Textarea } from '../ui/FormElements';
+import { TextArea } from '../ui/FormElements';
 
 // ─── Icons ───────────────────────────────────────────────────────
 import {
@@ -18,7 +17,6 @@ import {
   CheckCircle,
   Clock,
   FileUp,
-  MessageSquare,
   Send,
   User,
   X
@@ -27,34 +25,13 @@ import {
 // ─── Utilities ───────────────────────────────────────────────────
 import { formatDate, formatDateTime } from '../../utils/helpers';
 
-=======
-import React, { useState } from "react";
-import { ActionItem } from "../../types/index";
-import Modal from "../ui/Modal.tsx";
-import Button from "../ui/Button.tsx";
-import { TextArea } from "../ui/FormElements.tsx";
-import {
-  CheckCircle,
-  Clock,
-  Calendar,
-  User,
-  MessageSquare,
-  Send,
-  FileUp,
-  AlertTriangle,
-  X,
-} from "lucide-react";
-import { formatDate, formatDateTime } from "../../utils/helpers.ts";
-import { useAppContext } from "../../context/AppContext";
->>>>>>> 26992b5f0a3b081be38f1bd0501c447ccf1bbf89
-
 interface ActionItemDetailsProps {
   isOpen: boolean;
   onClose: () => void;
   actionItem: ActionItem;
   onStatusChange: (
     item: ActionItem,
-    newStatus: "initiated" | "in_progress" | "completed",
+    newStatus: 'initiated' | 'in_progress' | 'completed',
   ) => void;
   onAddOverdueReason: (item: ActionItem, reason: string) => void;
 }
@@ -67,36 +44,29 @@ const ActionItemDetails: React.FC<ActionItemDetailsProps> = ({
   onAddOverdueReason,
 }) => {
   const { addActionItemComment, connectionStatus } = useAppContext();
-  const [comment, setComment] = useState("");
-  const [overdueReason, setOverdueReason] = useState("");
+  const [comment, setComment] = useState('');
+  const [overdueReason, setOverdueReason] = useState('');
 
   // Calculate overdue status
   const today = new Date();
   const dueDate = new Date(actionItem.dueDate);
-  const isOverdue = today > dueDate && actionItem.status !== "completed";
-  const overdueBy = isOverdue
-    ? Math.floor((today.getTime() - dueDate.getTime()) / 86400000)
-    : 0;
+  const isOverdue = today > dueDate && actionItem.status !== 'completed';
+  const overdueBy = isOverdue ? Math.floor((today.getTime() - dueDate.getTime()) / 86400000) : 0;
   const isOverdueBy10 = overdueBy >= 10;
-  const needsReason =
-    isOverdueBy10 &&
-    !actionItem.overdueReason &&
-    actionItem.status !== "completed";
+  const needsReason = isOverdueBy10 && !actionItem.overdueReason && actionItem.status !== 'completed';
 
   // Handle adding a comment
   const handleAddComment = () => {
     if (!comment.trim()) return;
-
     addActionItemComment(actionItem.id, comment);
-    setComment("");
+    setComment('');
   };
 
   // Handle adding overdue reason
   const handleSubmitOverdueReason = () => {
     if (!overdueReason.trim()) return;
-
     onAddOverdueReason(actionItem, overdueReason);
-    setOverdueReason("");
+    setOverdueReason('');
   };
 
   return (
@@ -109,15 +79,14 @@ const ActionItemDetails: React.FC<ActionItemDetailsProps> = ({
       <div className="space-y-6">
         {/* Header */}
         <div
-          className={`p-4 rounded-lg ${
-            actionItem.status === "completed"
-              ? "bg-green-50 border border-green-200"
-              : isOverdueBy10
-                ? "bg-red-50 border border-red-200"
-                : isOverdue
-                  ? "bg-yellow-50 border border-yellow-200"
-                  : "bg-blue-50 border border-blue-200"
-          }`}
+          className={`p-4 rounded-lg ${actionItem.status === 'completed'
+            ? 'bg-green-50 border border-green-200'
+            : isOverdueBy10
+              ? 'bg-red-50 border border-red-200'
+              : isOverdue
+                ? 'bg-yellow-50 border border-yellow-200'
+                : 'bg-blue-50 border border-blue-200'
+            }`}
         >
           <div className="flex justify-between items-start">
             <div>
@@ -126,21 +95,20 @@ const ActionItemDetails: React.FC<ActionItemDetailsProps> = ({
               </h3>
               <div className="flex items-center space-x-2 mt-1">
                 <span
-                  className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                    actionItem.status === "completed"
-                      ? "bg-green-100 text-green-800"
-                      : actionItem.status === "in_progress"
-                        ? "bg-blue-100 text-blue-800"
-                        : "bg-yellow-100 text-yellow-800"
-                  }`}
+                  className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${actionItem.status === 'completed'
+                    ? 'bg-green-100 text-green-800'
+                    : actionItem.status === 'in_progress'
+                      ? 'bg-blue-100 text-blue-800'
+                      : 'bg-yellow-100 text-yellow-800'
+                    }`}
                 >
-                  {actionItem.status === "in_progress"
-                    ? "In Progress"
-                    : actionItem.status === "completed"
-                      ? "Completed"
-                      : "Initiated"}
+                  {actionItem.status === 'in_progress'
+                    ? 'In Progress'
+                    : actionItem.status === 'completed'
+                      ? 'Completed'
+                      : 'Initiated'}
                 </span>
-                {isOverdue && actionItem.status !== "completed" && (
+                {isOverdue && actionItem.status !== 'completed' && (
                   <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
                     Overdue by {overdueBy} days
                   </span>
@@ -148,27 +116,27 @@ const ActionItemDetails: React.FC<ActionItemDetailsProps> = ({
               </div>
             </div>
 
-            {actionItem.status !== "completed" && (
+            {actionItem.status !== 'completed' && (
               <Button
                 size="sm"
                 onClick={() =>
                   onStatusChange(
                     actionItem,
-                    actionItem.status === "initiated"
-                      ? "in_progress"
-                      : "completed",
+                    actionItem.status === 'initiated'
+                      ? 'in_progress'
+                      : 'completed',
                   )
                 }
                 icon={
-                  actionItem.status === "initiated" ? (
+                  actionItem.status === 'initiated' ? (
                     <Clock className="w-3 h-3" />
                   ) : (
                     <CheckCircle className="w-3 h-3" />
                   )
                 }
-                disabled={connectionStatus !== "connected"}
+                disabled={connectionStatus !== 'connected'}
               >
-                {actionItem.status === "initiated" ? "Start" : "Complete"}
+                {actionItem.status === 'initiated' ? 'Start' : 'Complete'}
               </Button>
             )}
           </div>
@@ -197,7 +165,7 @@ const ActionItemDetails: React.FC<ActionItemDetailsProps> = ({
               <div>
                 <p className="text-sm text-gray-500">Due Date</p>
                 <p
-                  className={`font-medium ${isOverdue ? "text-red-600" : "text-gray-900"}`}
+                  className={`font-medium ${isOverdue ? 'text-red-600' : 'text-gray-900'}`}
                 >
                   {formatDate(actionItem.dueDate)}
                 </p>
@@ -261,9 +229,7 @@ const ActionItemDetails: React.FC<ActionItemDetailsProps> = ({
               <TextArea
                 label="Reason for Delay *"
                 value={overdueReason}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setOverdueReason(e.target.value)
-                }
+                onChange={setOverdueReason}
                 placeholder="Explain why this action item is overdue..."
                 rows={2}
               />
@@ -272,9 +238,7 @@ const ActionItemDetails: React.FC<ActionItemDetailsProps> = ({
                 <Button
                   size="sm"
                   onClick={handleSubmitOverdueReason}
-                  disabled={
-                    !overdueReason.trim() || connectionStatus !== "connected"
-                  }
+                  disabled={!overdueReason.trim() || connectionStatus !== 'connected'}
                 >
                   Save Reason
                 </Button>
@@ -290,7 +254,7 @@ const ActionItemDetails: React.FC<ActionItemDetailsProps> = ({
               Attachments ({actionItem.attachments.length})
             </h4>
             <div className="space-y-2">
-              {actionItem.attachments.map((attachment) => (
+              {actionItem.attachments.map((attachment: { id: string; filename: string; fileUrl: string }) => (
                 <div
                   key={attachment.id}
                   className="flex items-center justify-between p-3 bg-gray-50 rounded-md border border-gray-200"
@@ -304,7 +268,7 @@ const ActionItemDetails: React.FC<ActionItemDetailsProps> = ({
                   <Button
                     size="sm"
                     variant="outline"
-                    onClick={() => window.open(attachment.fileUrl, "_blank")}
+                    onClick={() => window.open(attachment.fileUrl, '_blank')}
                   >
                     View
                   </Button>
@@ -322,7 +286,7 @@ const ActionItemDetails: React.FC<ActionItemDetailsProps> = ({
 
           {actionItem.comments && actionItem.comments.length > 0 ? (
             <div className="space-y-3 max-h-60 overflow-y-auto mb-4">
-              {actionItem.comments.map((comment) => (
+              {actionItem.comments.map((comment: { id: string; comment: string; createdBy: string; createdAt: string }) => (
                 <div
                   key={comment.id}
                   className="p-3 bg-gray-50 rounded-md border border-gray-200"
@@ -345,14 +309,14 @@ const ActionItemDetails: React.FC<ActionItemDetailsProps> = ({
           <div className="flex space-x-2">
             <TextArea
               value={comment}
-              onChange={(e) => setComment(e.target.value)}
+              onChange={setComment}
               placeholder="Add a comment..."
               rows={2}
               className="flex-1"
             />
             <Button
               onClick={handleAddComment}
-              disabled={!comment.trim() || connectionStatus !== "connected"}
+              disabled={!comment.trim() || connectionStatus !== 'connected'}
               icon={<Send className="w-4 h-4" />}
               className="self-end"
             >
