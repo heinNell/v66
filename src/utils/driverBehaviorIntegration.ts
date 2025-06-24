@@ -78,7 +78,7 @@ const processedRowIds = new Set<number>();
 // -------------------- Utility Functions --------------------
 export function parseDate(dateStr: string): string {
   if (!dateStr) return new Date().toISOString().split('T')[0];
-  
+
   try {
     // Check if the date is in YYYY/MM/DD format
     if (dateStr.includes('/')) {
@@ -89,7 +89,7 @@ export function parseDate(dateStr: string): string {
         return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
       }
     }
-    
+
     // If it's already in YYYY-MM-DD format or another format
     const date = new Date(dateStr);
     if (isNaN(date.getTime())) {
@@ -120,24 +120,22 @@ function isEventProcessed(event: any): boolean {
   // Check by row ID first if available
   if (event.rowId && event.rowId > 0) {
     if (processedRowIds.has(event.rowId)) {
-      console.log(`Event already processed by row ID: ${event.rowId}`);
       return true;
     }
-    
+
     // Add to processed row IDs
     processedRowIds.add(event.rowId);
   }
-  
+
   // Also check by fingerprint as a backup
   const fingerprint = generateEventFingerprint(event);
   if (processedEvents.has(fingerprint)) {
-    console.log(`Event already processed by fingerprint: ${fingerprint}`);
     return true;
   }
-  
+
   // Add to processed events
   processedEvents.add(fingerprint);
-  
+
   // Limit the size of the sets to prevent memory leaks
   if (processedEvents.size > 1000) {
     // Remove the oldest entries (first 200)
@@ -146,7 +144,7 @@ function isEventProcessed(event: any): boolean {
       processedEvents.delete(iterator.next().value);
     }
   }
-  
+
   if (processedRowIds.size > 1000) {
     // Remove the oldest entries (first 200)
     const iterator = processedRowIds.values();
@@ -154,7 +152,7 @@ function isEventProcessed(event: any): boolean {
       processedRowIds.delete(iterator.next().value);
     }
   }
-  
+
   return false;
 }
 
@@ -165,9 +163,7 @@ export async function fetchAndSaveDriverEvents() {
     const timestamp = Date.now();
     const scriptUrl = "https://script.google.com/macros/s/AKfycbw5_oPDd7wVIEOxf9rY6wKqUN1aNFuVqGrPl83Z2YKygZiHftyUxU-_sV4Wu_vY1h1vSg/exec";
     const url = `${scriptUrl}?t=${timestamp}`;
-    
-    console.log("Fetching driver events from:", url);
-    
+
     const response = await fetch(url, {
       method: 'GET',
       headers: {
@@ -175,60 +171,53 @@ export async function fetchAndSaveDriverEvents() {
         'Content-Type': 'application/json'
       }
     });
-    
+
     if (!response.ok) {
       throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
     }
-    
+
     const data = await response.json();
-    console.log("Received data:", data);
 
     // Check if we have a valid response with data
     if (!data || (Array.isArray(data) && data.length === 0)) {
-      console.log("No new driver events to process");
       return null;
     }
 
     // Handle both single event and array of events
     const events = Array.isArray(data) ? data : [data];
-    
+
     // Track how many new events we processed
     let newEventsCount = 0;
-    
+
     // Process each event
     for (const eventData of events) {
       // Skip if eventType is UNKNOWN
       const eventType = (eventData.eventType || "").toString().trim();
       if (!eventType || eventType.toUpperCase() === "UNKNOWN") {
-        console.log("Skipping UNKNOWN event type");
         continue;
       }
-      
+
       // Skip ignored event types
       const rawEventType = eventType.toLowerCase();
       if (IGNORED_EVENTS.includes(rawEventType)) {
-        console.log("Ignored event type:", rawEventType);
         continue;
       }
-      
+
       // Skip if we've already processed this event
       if (isEventProcessed(eventData)) {
-        console.log("Skipping already processed event:", eventData.eventType, eventData.driverName);
         continue;
       }
 
       // Process the event data from the "Data" sheet format
       const processedEvent = processEventFromDataSheet(eventData);
-      
+
       if (processedEvent) {
         // Save to Firestore
         await addDriverBehaviorEvent(processedEvent);
-        console.log("New driver event saved:", processedEvent);
         newEventsCount++;
       }
     }
-    
-    console.log(`Processed ${newEventsCount} new driver events out of ${events.length} total events`);
+
     return newEventsCount;
   } catch (error) {
     console.error("Error fetching and saving driver events:", error);
@@ -244,17 +233,17 @@ function processEventFromDataSheet(eventData: any): Omit<DriverBehaviorEvent, 'i
     if (!eventType || eventType.toUpperCase() === "UNKNOWN") {
       return null;
     }
-    
+
     // Skip ignored event types
     const rawEventType = eventType.toLowerCase();
     if (IGNORED_EVENTS.includes(rawEventType)) {
       return null;
     }
-    
+
     // Map the event type to our standardized types
     let mappedEventType: DriverBehaviorEventType = "other";
     const normalizedEventType = rawEventType.replace(/\s+/g, '_').toLowerCase();
-    
+
     // Try to find a matching event type
     for (const [key, value] of Object.entries(eventTypeMap)) {
       if (normalizedEventType.includes(key)) {
@@ -262,17 +251,17 @@ function processEventFromDataSheet(eventData: any): Omit<DriverBehaviorEvent, 'i
         break;
       }
     }
-    
+
     // Get severity and points from rules or from the data
     let severity = (eventData.severity || "medium").toLowerCase();
     let points = parseInt(eventData.points) || 0;
-    
+
     // If we have rules for this event type, use them
     if (eventRules[mappedEventType]) {
       severity = eventRules[mappedEventType].severity;
       points = eventRules[mappedEventType].points;
     }
-    
+
     // Create the driver behavior event
     const driverEvent: Omit<DriverBehaviorEvent, 'id'> = {
       driverName: eventData.driverName || "Unknown",
@@ -294,7 +283,7 @@ function processEventFromDataSheet(eventData: any): Omit<DriverBehaviorEvent, 'i
       latitude: eventData.latitude,
       longitude: eventData.longitude
     };
-    
+
     return driverEvent;
   } catch (error) {
     console.error("Error processing event data:", error);
@@ -306,23 +295,21 @@ function processEventFromDataSheet(eventData: any): Omit<DriverBehaviorEvent, 'i
 let pollingIntervalId: number | null = null;
 
 export function startDriverEventPolling(intervalMs = 60000) {
-  console.log("Starting driver event polling...");
-  
   // Stop any existing polling
   if (pollingIntervalId) {
     stopDriverEventPolling(pollingIntervalId);
   }
-  
+
   // Initial fetch
   fetchAndSaveDriverEvents().catch(console.error);
-  
+
   // Set up interval for subsequent fetches
   const intervalId = window.setInterval(() => {
     fetchAndSaveDriverEvents().catch(console.error);
   }, intervalMs);
-  
+
   pollingIntervalId = intervalId;
-  
+
   // Return the interval ID so it can be cleared if needed
   return intervalId;
 }
@@ -331,7 +318,6 @@ export function startDriverEventPolling(intervalMs = 60000) {
 export function stopDriverEventPolling(intervalId: number | null) {
   if (intervalId) {
     window.clearInterval(intervalId);
-    console.log("Driver event polling stopped");
     pollingIntervalId = null;
   }
 }

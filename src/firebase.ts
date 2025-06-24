@@ -20,11 +20,7 @@ import {
   setDoc,
   writeBatch,
 } from "firebase/firestore";
-<<<<<<< HEAD
 import { firebaseApp } from "./firebaseConfig";
-=======
-import { firebaseConfig } from "./firebaseConfig.tsx";
->>>>>>> 26992b5f0a3b081be38f1bd0501c447ccf1bbf89
 
 // Use custom Firestore database ID from .env
 const databaseId = import.meta.env.VITE_FIREBASE_DATABASE_ID || undefined;
@@ -139,7 +135,6 @@ export const monitorConnectionStatus = (
 // Google Sheets Integration
 export const listenToGoogleSheetChanges = () => {
   // This would be implemented in a Firebase Cloud Function
-  console.log("Setting up Google Sheets integration listener");
 };
 
 // Export the addDriverBehaviorEvent function for the integration
@@ -147,16 +142,16 @@ export const addDriverBehaviorEvent = async (eventData: any) => {
   try {
     // Generate a unique ID for the event
     const eventId = `EVENT-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
-    
+
     // Add the ID to the event data
     const eventWithId = {
       ...eventData,
       id: eventId
     };
-    
+
     // Add to Firestore
     await setDoc(doc(driverBehaviorCollection, eventId), eventWithId);
-    
+
     return eventId;
   } catch (error) {
     console.error("Error adding driver behavior event:", error);
