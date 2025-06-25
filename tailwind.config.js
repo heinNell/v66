@@ -42,6 +42,7 @@ export default {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'hero-pattern': "url('/background.jpg')",
       },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
@@ -49,4 +50,34 @@ export default {
     },
   },
   plugins: [],
-};
+  safelist: [
+    'border-gray-300',
+    'border-gray-200',
+    'border-blue-500',
+    'border-red-500',
+    'text-gray-300',
+    'text-gray-400',
+    'text-gray-500',
+    'text-gray-600',
+    'text-gray-700',
+    'text-gray-800',
+    'text-gray-900',
+    'bg-gray-50',
+    'bg-gray-100',
+    'bg-gray-200',
+    'bg-blue-50',
+    'bg-blue-100',
+    'bg-red-50',
+    'bg-red-100',
+    'bg-green-50',
+    'bg-green-100',
+    'bg-yellow-50',
+    'bg-yellow-100',
+    'bg-amber-50',
+    'bg-amber-100',
+    'bg-purple-50',
+    'bg-purple-100',
+    'bg-orange-50',
+    'bg-orange-100'
+  ]
+}
