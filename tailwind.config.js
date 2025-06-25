@@ -1,5 +1,3 @@
-import colors from 'tailwindcss/colors';
-
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -9,7 +7,6 @@ export default {
         sans: ['Inter', 'sans-serif'],
       },
       colors: {
-        ...colors,
         primary: {
           50: '#f0f9ff',
           100: '#e0f2fe',
@@ -34,7 +31,6 @@ export default {
           800: '#115e59',
           900: '#134e4a',
         },
-        gray: colors.gray,
       },
       boxShadow: {
         card: '0 2px 5px 0 rgba(0,0,0,0.05)',
@@ -42,7 +38,6 @@ export default {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'hero-pattern': "url('/background.jpg')",
       },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
@@ -51,10 +46,8 @@ export default {
   },
   plugins: [],
   safelist: [
-    'border-gray-300',
-    'border-gray-200',
-    'border-blue-500',
-    'border-red-500',
+    'bg-white',
+    'text-white',
     'text-gray-300',
     'text-gray-400',
     'text-gray-500',
@@ -65,19 +58,37 @@ export default {
     'bg-gray-50',
     'bg-gray-100',
     'bg-gray-200',
-    'bg-blue-50',
-    'bg-blue-100',
-    'bg-red-50',
-    'bg-red-100',
-    'bg-green-50',
-    'bg-green-100',
-    'bg-yellow-50',
-    'bg-yellow-100',
-    'bg-amber-50',
-    'bg-amber-100',
-    'bg-purple-50',
-    'bg-purple-100',
-    'bg-orange-50',
-    'bg-orange-100'
+    'bg-gray-300',
+    'bg-gray-400',
+    'bg-gray-500',
+    'bg-gray-600',
+    'bg-gray-700',
+    'bg-gray-800',
+    'bg-gray-900',
+    'border-gray-100',
+    'border-gray-200',
+    'border-gray-300',
+    'border-gray-400',
+    'border-gray-500',
+    'border-gray-600',
+    'border-gray-700',
+    'border-gray-800',
+    'border-gray-900',
+    'hover:bg-gray-50',
+    'hover:bg-gray-100',
+    'hover:bg-gray-200',
+    'hover:bg-gray-800',
+    'hover:text-gray-700',
+    'hover:text-white',
+    'focus:border-blue-500',
+    'focus:ring-blue-500',
+    'focus:outline-none',
+    'focus:ring-1',
+    'focus:ring-2',
+    'focus:ring-offset-2',
+    'rounded',
+    'rounded-md',
+    'rounded-lg',
+    'rounded-full'
   ]
 }
