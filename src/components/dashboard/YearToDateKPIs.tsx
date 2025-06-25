@@ -338,60 +338,58 @@ const YearToDateKPIs: React.FC<YearToDateKPIsProps> = ({ trips }) => {
     const isGoodChange = title.includes('Operational') ? isNegative : isPositive;
 
     return (
-      <Card className="hover:shadow-lg transition-shadow">
-        <CardContent className="p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 rounded-lg bg-gray-50">
-                <Icon className={`w-6 h-6 ${colorClass}`} />
-              </div>
-              <h3 className="text-sm font-medium text-gray-600">{title}</h3>
+      <div className="kpi-card">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center space-x-3">
+            <div className="p-2 rounded-lg bg-gray-50">
+              <Icon className={`w-6 h-6 ${colorClass}`} />
+            </div>
+            <h3 className="text-sm font-medium text-gray-600">{title}</h3>
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          {/* 2025 Current */}
+          <div>
+            <div className="flex items-baseline space-x-2">
+              <span className="kpi-value">
+                {formatValue(current)}
+                {suffix}
+              </span>
+              <span className="text-sm text-gray-500">2025 YTD</span>
             </div>
           </div>
 
-          <div className="space-y-3">
-            {/* 2025 Current */}
-            <div>
-              <div className="flex items-baseline space-x-2">
-                <span className="text-2xl font-bold text-gray-900">
-                  {formatValue(current)}
-                  {suffix}
-                </span>
-                <span className="text-sm text-gray-500">2025 YTD</span>
-              </div>
-            </div>
-
-            {/* 2024 Previous */}
-            <div>
-              <div className="flex items-baseline space-x-2">
-                <span className="text-lg font-medium text-gray-600">
-                  {formatValue(previous)}
-                  {suffix}
-                </span>
-                <span className="text-sm text-gray-500">2024 YTD</span>
-              </div>
-            </div>
-
-            {/* Change Indicator */}
-            <div className="flex items-center space-x-2">
-              {change.percentage !== 0 && (
-                <>
-                  {isGoodChange ? (
-                    <TrendingUp className="w-4 h-4 text-green-600" />
-                  ) : (
-                    <TrendingDown className="w-4 h-4 text-red-600" />
-                  )}
-                  <span className={`text-sm font-medium ${isGoodChange ? 'text-green-600' : 'text-red-600'}`}>
-                    {change.percentage > 0 ? '+' : ''}
-                    {change.percentage.toFixed(1)}%
-                  </span>
-                  <span className="text-xs text-gray-500">vs 2024</span>
-                </>
-              )}
+          {/* 2024 Previous */}
+          <div>
+            <div className="flex items-baseline space-x-2">
+              <span className="text-lg font-medium text-gray-600">
+                {formatValue(previous)}
+                {suffix}
+              </span>
+              <span className="text-sm text-gray-500">2024 YTD</span>
             </div>
           </div>
-        </CardContent>
-      </Card>
+
+          {/* Change Indicator */}
+          <div className="flex items-center space-x-2">
+            {change.percentage !== 0 && (
+              <>
+                {isGoodChange ? (
+                  <TrendingUp className="w-4 h-4 text-green-600" />
+                ) : (
+                  <TrendingDown className="w-4 h-4 text-red-600" />
+                )}
+                <span className={`text-sm font-medium ${isGoodChange ? 'text-green-600' : 'text-red-600'}`}>
+                  {change.percentage > 0 ? '+' : ''}
+                  {change.percentage.toFixed(1)}%
+                </span>
+                <span className="text-xs text-gray-500">vs 2024</span>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
     );
   };
 

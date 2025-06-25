@@ -13,7 +13,7 @@ interface CardComponent extends React.FC<CardProps> {
 
 const Card: CardComponent = ({ children, className = '' }) => {
   return (
-    <div className={`bg-white rounded-lg shadow-md overflow-hidden card ${className}`}>
+    <div className={`card ${className}`}>
       {children}
     </div>
   );
@@ -35,12 +35,12 @@ export const CardHeader: React.FC<CardHeaderProps> = ({
   className = '' 
 }) => {
   return (
-    <div className={`px-6 py-4 border-b border-slate-200 flex justify-between items-center ${className}`}>
+    <div className={`card-header ${className}`}>
       <div className="flex items-center gap-2">
         {icon && <span className="text-xl">{icon}</span>}
         <div>
-          <h3 className="text-xl font-semibold text-slate-800">{title}</h3>
-          {subtitle && <p className="text-sm text-slate-500 mt-1">{subtitle}</p>}
+          <h3 className="card-title">{title}</h3>
+          {subtitle && <p className="card-subtitle">{subtitle}</p>}
         </div>
       </div>
       {action && <div>{action}</div>}
@@ -58,7 +58,7 @@ export const CardContent: React.FC<CardContentProps> = ({
   className = '' 
 }) => {
   return (
-    <div className={`px-6 py-4 ${className}`}>
+    <div className={`card-content ${className}`}>
       {children}
     </div>
   );

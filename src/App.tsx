@@ -1,5 +1,5 @@
-import React, { useState, useEffect, ReactNode } from "react";
-import { AppProvider, useAppContext } from "./context/AppContext";
+import React, { useState, useEffect } from 'react';
+import { useAppContext } from "./context/AppContext";
 import ErrorBoundary from './components/ErrorBoundary';
 
 // UI Components
@@ -40,7 +40,7 @@ const AppContent: React.FC = () => {
   const [showTripForm, setShowTripForm] = useState(false);
   const [editingTrip, setEditingTrip] = useState<Trip | undefined>();
   const [isInitialLoad, setIsInitialLoad] = useState(true);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   // Initial load detection
   useEffect(() => {
@@ -124,7 +124,7 @@ const AppContent: React.FC = () => {
   };
 
   const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
+    setSidebarCollapsed(!sidebarCollapsed);
   };
 
   // MissedLoadsTracker expects async handlers, so wrap context methods in async wrappers
@@ -190,9 +190,13 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <Sidebar currentView={currentView} onNavigate={setCurrentView} />
+      <Sidebar 
+        currentView={currentView} 
+        onNavigate={setCurrentView} 
+        collapsed={sidebarCollapsed} 
+      />
       
-      <div className="main-content">
+      <div className={`main-content ${sidebarCollapsed ? 'ml-20' : 'ml-0 md:ml-[260px]'}`}>
         <Header 
           currentView={currentView} 
           onNavigate={setCurrentView} 
@@ -203,7 +207,7 @@ const AppContent: React.FC = () => {
           onToggleSidebar={toggleSidebar}
         />
         
-        <main className="p-6">
+        <main className="p-6 flex-1 overflow-auto">
           {renderContent()}
         </main>
       </div>

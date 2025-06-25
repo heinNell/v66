@@ -22,6 +22,7 @@ import { useAppContext } from '../../context/AppContext';
 interface SidebarProps {
   currentView: string;
   onNavigate: (view: string) => void;
+  collapsed?: boolean;
 }
 
 interface NavGroup {
@@ -33,7 +34,11 @@ interface NavGroup {
   }[];
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ currentView, onNavigate }) => {
+const Sidebar: React.FC<SidebarProps> = ({ 
+  currentView, 
+  onNavigate,
+  collapsed = false
+}) => {
   const { connectionStatus } = useAppContext();
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({
     'analytics': true,
@@ -86,7 +91,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onNavigate }) => {
   ];
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${collapsed ? 'sidebar-collapsed' : ''}`}>
       <div className="sidebar-logo">
         <div className="w-10 h-10 bg-yellow-500 rounded-md flex items-center justify-center text-white font-bold text-xl">
           MT
@@ -123,7 +128,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onNavigate }) => {
                         className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
                       >
                         <Icon className="w-5 h-5 mr-3" />
-                        {item.label}
+                        <span>{item.label}</span>
                       </button>
                     </li>
                   );
