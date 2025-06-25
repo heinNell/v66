@@ -43,6 +43,102 @@ export const DRIVER_BEHAVIOR_EVENT_TYPES = [
     { label: 'Seatbelt Violation', value: 'seatbelt_violation', points: 8, severity: 'Medium' }
 ];
 
+// Cost Categories and Sub-Categories
+export const COST_CATEGORIES: Record<string, string[]> = {
+    'Fuel Costs': [
+        'Diesel',
+        'Petrol',
+        'AdBlue',
+        'Fuel Cards',
+        'Emergency Fuel'
+    ],
+    'Maintenance Costs': [
+        'Scheduled Service',
+        'Repairs',
+        'Tyres',
+        'Oil Change',
+        'Brake Service',
+        'Engine Repair',
+        'Transmission Repair',
+        'Emergency Repairs'
+    ],
+    'Driver Costs': [
+        'Salaries',
+        'Overtime',
+        'Allowances',
+        'Accommodation',
+        'Meals',
+        'Medical',
+        'Training'
+    ],
+    'Route Costs': [
+        'Tolls',
+        'Permits',
+        'Border Fees',
+        'Parking',
+        'Weighbridge Fees'
+    ],
+    'Insurance Costs': [
+        'Vehicle Insurance',
+        'Cargo Insurance',
+        'Third Party Insurance',
+        'Comprehensive Cover'
+    ],
+    'Administrative Costs': [
+        'Documentation',
+        'Communication',
+        'Office Supplies',
+        'Legal Fees',
+        'Banking Fees'
+    ],
+    'Non-Value-Added Costs': [
+        'Delays',
+        'Detention',
+        'Demurrage',
+        'Penalties',
+        'Fines',
+        'Waiting Time',
+        'Rework'
+    ],
+    'Border Costs': [
+        'Customs Fees',
+        'Documentation Fees',
+        'Agent Fees',
+        'Storage Fees',
+        'Inspection Fees',
+        'Transit Fees'
+    ],
+    'System Costs': [
+        'Calculated Fuel',
+        'Calculated Maintenance',
+        'Calculated Insurance',
+        'Calculated Driver Cost'
+    ]
+};
+
+// Cost Entry interface
+export interface CostEntry {
+    id: string;
+    tripId: string;
+    category: string;
+    subCategory: string;
+    amount: number;
+    currency: 'USD' | 'ZAR';
+    referenceNumber: string;
+    date: string;
+    notes?: string;
+    attachments: { id: string; filename: string; fileUrl: string }[];
+    isFlagged: boolean;
+    flagReason?: string;
+    noDocumentReason?: string;
+    investigationStatus?: 'pending' | 'in_progress' | 'resolved';
+    flaggedAt?: string;
+    flaggedBy?: string;
+    isSystemGenerated: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
 // Trip type and related constants
 export interface Trip {
   id: string;
