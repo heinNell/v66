@@ -1,3 +1,5 @@
+import colors from 'tailwindcss/colors';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -7,6 +9,7 @@ export default {
         sans: ['Inter', 'sans-serif'],
       },
       colors: {
+        ...colors,
         primary: {
           50: '#f0f9ff',
           100: '#e0f2fe',
@@ -32,6 +35,7 @@ export default {
           900: '#134e4a',
         },
         gray: {
+          ...colors.gray,
           750: '#2d3748',
           850: '#1a202c',
         },
