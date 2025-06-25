@@ -49,8 +49,20 @@ const SystemCostGenerator: React.FC<SystemCostGeneratorProps> = ({
   
   // Use effective date logic to determine which rates to apply
   const getApplicableRates = (currency: 'USD' | 'ZAR'): SystemCostRates => {
+    // Ensure we have valid rates for the currency
+    if (!systemRates || !systemRates[currency] || !systemRates[currency].perKmCosts) {
+      console.warn(`Using default rates for ${currency} due to missing or invalid rates`);
+      return DEFAULT_SYSTEM_COST_RATES[currency];
+    }
+    
     const rates = systemRates[currency];
     const tripStartDate = new Date(trip.startDate);
+    
+    // Check if rates have an effective date
+    if (!rates.effectiveDate) {
+      return rates;
+    }
+    
     const rateEffectiveDate = new Date(rates.effectiveDate);
     
     if (tripStartDate >= rateEffectiveDate) {
