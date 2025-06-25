@@ -34,11 +34,7 @@ export default {
           800: '#115e59',
           900: '#134e4a',
         },
-        gray: {
-          ...colors.gray,
-          750: '#2d3748',
-          850: '#1a202c',
-        },
+        gray: colors.gray,
       },
       boxShadow: {
         card: '0 2px 5px 0 rgba(0,0,0,0.05)',
