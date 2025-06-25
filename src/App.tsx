@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAppContext } from "./context/AppContext";
+import { useAppContext, AppProvider } from "./context/AppContext";
 import ErrorBoundary from './components/ErrorBoundary';
 
 // UI Components
