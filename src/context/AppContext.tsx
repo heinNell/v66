@@ -52,36 +52,42 @@ interface AppContextType {
     
     // Trips
     trips: Trip[];
+    setTrips: React.Dispatch<React.SetStateAction<Trip[]>>;
     addTrip: (data: Omit<Trip, 'id'>) => string;
     updateTrip: (item: Trip) => void;
     deleteTrip: (id: string) => void;
     
     // Missed Loads
     missedLoads: MissedLoad[];
+    setMissedLoads: React.Dispatch<React.SetStateAction<MissedLoad[]>>;
     addMissedLoad: (data: Omit<MissedLoad, 'id'>) => string;
     updateMissedLoad: (item: MissedLoad) => void;
     deleteMissedLoad: (id: string) => void;
     
     // Diesel Records
     dieselRecords: DieselRecord[];
+    setDieselRecords: React.Dispatch<React.SetStateAction<DieselRecord[]>>;
     addDieselRecord: (data: Omit<DieselRecord, 'id'>) => string;
     updateDieselRecord: (item: DieselRecord) => void;
     deleteDieselRecord: (id: string) => void;
     
     // Driver Behavior Events
     driverBehaviorEvents: DriverBehaviorEvent[];
+    setDriverBehaviorEvents: React.Dispatch<React.SetStateAction<DriverBehaviorEvent[]>>;
     addDriverBehaviorEvent: (data: Omit<DriverBehaviorEvent, 'id'>) => string;
     updateDriverBehaviorEvent: (item: DriverBehaviorEvent) => void;
     deleteDriverBehaviorEvent: (id: string) => void;
     
     // CAR Reports
     carReports: CARReport[];
+    setCARReports: React.Dispatch<React.SetStateAction<CARReport[]>>;
     addCARReport: (data: Omit<CARReport, 'id'>) => string;
     updateCARReport: (item: CARReport) => void;
     deleteCARReport: (id: string) => void;
     
     // System Cost Rates
     systemCostRates: SystemCostRate[];
+    setSystemCostRates: React.Dispatch<React.SetStateAction<SystemCostRate[]>>;
     addSystemCostRate: (data: Omit<SystemCostRate, 'id'>) => string;
     updateSystemCostRate: (item: SystemCostRate) => void;
     deleteSystemCostRate: (id: string) => void;
@@ -239,36 +245,42 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         
         // Trips
         trips,
+        setTrips,
         addTrip,
         updateTrip,
         deleteTrip,
         
         // Missed Loads
         missedLoads,
+        setMissedLoads,
         addMissedLoad,
         updateMissedLoad,
         deleteMissedLoad,
         
         // Diesel Records
         dieselRecords,
+        setDieselRecords,
         addDieselRecord,
         updateDieselRecord,
         deleteDieselRecord,
         
         // Driver Behavior Events
         driverBehaviorEvents,
+        setDriverBehaviorEvents,
         addDriverBehaviorEvent,
         updateDriverBehaviorEvent,
         deleteDriverBehaviorEvent,
         
         // CAR Reports
         carReports,
+        setCARReports,
         addCARReport,
         updateCARReport,
         deleteCARReport,
         
         // System Cost Rates
         systemCostRates,
+        setSystemCostRates,
         addSystemCostRate,
         updateSystemCostRate,
         deleteSystemCostRate,
