@@ -133,6 +133,9 @@ export const CLIENT_TYPES: { label: string; value: 'internal' | 'external' }[] =
 ];
 export const FLEET_NUMBERS: string[] = ['Fleet 01', 'Fleet 02', 'Fleet 03'];
 
+// Define which fleets have probes
+export const FLEETS_WITH_PROBES = ['22H', '23H', '24H', '26H', '28H', '31H', '30H'];
+
 // System Cost Configuration interfaces and constants
 export interface SystemCostRates {
   fuelCostPerLiter: number;
