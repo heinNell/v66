@@ -43,6 +43,25 @@ export const DRIVER_BEHAVIOR_EVENT_TYPES = [
     { label: 'Seatbelt Violation', value: 'seatbelt_violation', points: 8, severity: 'Medium' }
 ];
 
+// Delay Reason Types
+export const DELAY_REASON_TYPES: string[] = [
+    'Traffic congestion',
+    'Weather conditions',
+    'Vehicle breakdown',
+    'Driver rest period',
+    'Border delays',
+    'Customs clearance',
+    'Loading/Unloading delays',
+    'Route restrictions',
+    'Fuel shortage',
+    'Documentation issues',
+    'Client delays',
+    'Mechanical issues',
+    'Permit delays',
+    'Weighbridge queues',
+    'Other'
+];
+
 // Cost Categories and Sub-Categories
 export const COST_CATEGORIES: Record<string, string[]> = {
     'Fuel Costs': [
