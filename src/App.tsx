@@ -194,9 +194,9 @@ const AppContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex">
+    <div className="min-h-screen flex">
       <Sidebar currentView={currentView} onNavigate={setCurrentView} />
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col ml-64">
         <Header 
           currentView={currentView} 
           onNavigate={setCurrentView} 
@@ -205,7 +205,7 @@ const AppContent: React.FC = () => {
           onNotificationsClick={() => console.log('Notifications clicked')}
           onSettingsClick={() => console.log('Settings clicked')}
         />
-        <main className="flex-1 p-6 overflow-auto ml-64">
+        <main className="flex-1 p-6 overflow-auto">
           {renderContent()}
         </main>
       </div>

@@ -18,6 +18,7 @@ import {
   LogOut
 } from 'lucide-react';
 import { useAppContext } from '../../context/AppContext';
+import logo from '/logo.png';
 
 interface SidebarProps {
   currentView: string;
@@ -86,10 +87,17 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onNavigate }) => {
   ];
 
   return (
-    <aside className="w-64 h-screen fixed top-0 left-0 bg-gray-900 text-white shadow-lg z-10 overflow-y-auto">
+    <aside className="w-64 h-screen fixed top-0 left-0 bg-gray-900 text-white shadow-lg z-20 overflow-y-auto">
       <div className="p-6 border-b border-gray-800">
-        <h1 className="text-xl font-bold text-white">Matanuska Transport</h1>
-        <p className="text-sm text-gray-400 mt-1">Fleet Management System</p>
+        <div className="flex items-center space-x-3">
+          <div className="w-10 h-10 bg-yellow-500 rounded-md flex items-center justify-center text-white font-bold text-xl">
+            MT
+          </div>
+          <div>
+            <h1 className="text-xl font-bold text-white">Matanuska</h1>
+            <p className="text-sm text-gray-400">Transport Management</p>
+          </div>
+        </div>
       </div>
       
       <nav className="mt-6">
