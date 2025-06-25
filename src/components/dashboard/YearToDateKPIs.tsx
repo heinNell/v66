@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { formatCurrency, calculateTotalCosts } from '../../utils/helpers';
 
+
 interface YTDMetrics {
   year: number;
   totalKms: number;
