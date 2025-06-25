@@ -23,40 +23,40 @@ const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   // Base classes
-  let buttonClasses = 'btn inline-flex items-center justify-center font-medium transition-all';
+  let buttonClasses = 'inline-flex items-center justify-center font-medium transition-all rounded-md shadow-sm';
   
   // Variant classes
   switch (variant) {
     case 'primary':
-      buttonClasses += ' btn-primary';
+      buttonClasses += ' bg-blue-700 hover:bg-blue-800 text-white border border-blue-800';
       break;
     case 'secondary':
-      buttonClasses += ' bg-gray-200 hover:bg-gray-300 text-gray-800';
+      buttonClasses += ' bg-gray-100 hover:bg-gray-200 text-gray-800 border border-gray-300';
       break;
     case 'outline':
-      buttonClasses += ' btn-outline';
+      buttonClasses += ' bg-white hover:bg-gray-50 text-gray-700 border border-gray-300';
       break;
     case 'danger':
-      buttonClasses += ' bg-red-600 hover:bg-red-700 text-white';
+      buttonClasses += ' bg-red-600 hover:bg-red-700 text-white border border-red-700';
       break;
     case 'success':
-      buttonClasses += ' bg-green-500 hover:bg-green-600 text-white';
+      buttonClasses += ' bg-green-600 hover:bg-green-700 text-white border border-green-700';
       break;
   }
   
   // Size classes
   switch (size) {
     case 'xs':
-      buttonClasses += ' px-2 py-1 text-xs rounded';
+      buttonClasses += ' px-2 py-1 text-xs';
       break;
     case 'sm':
-      buttonClasses += ' px-3 py-1.5 text-sm rounded';
+      buttonClasses += ' px-3 py-1.5 text-sm';
       break;
     case 'md':
-      buttonClasses += ' px-4 py-2 text-base rounded-md';
+      buttonClasses += ' px-4 py-2 text-sm';
       break;
     case 'lg':
-      buttonClasses += ' px-6 py-3 text-lg rounded-lg';
+      buttonClasses += ' px-6 py-3 text-base';
       break;
   }
   

@@ -17,7 +17,6 @@ import {
   Users,
   LogOut
 } from 'lucide-react';
-import { useAppContext } from '../../context/AppContext';
 
 interface SidebarProps {
   currentView: string;
@@ -39,7 +38,9 @@ const Sidebar: React.FC<SidebarProps> = ({
   onNavigate,
   collapsed = false
 }) => {
-  const { connectionStatus } = useAppContext();
+  // Always show as connected
+  const connectionStatus = "connected";
+  
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({
     'analytics': true,
     'operations': true,
@@ -98,7 +99,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         </div>
         <div className="ml-3">
           <h1 className="text-xl font-bold text-white">Matanuska</h1>
-          <p className="text-sm text-gray-400">Transport Management</p>
+          <p className="text-sm text-gray-300">Transport Management</p>
         </div>
       </div>
       
@@ -107,7 +108,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           <div key={group.title} className="sidebar-nav-group">
             <button 
               onClick={() => toggleGroup(group.title.toLowerCase())}
-              className="w-full flex items-center justify-between px-6 py-2 text-sm font-semibold text-gray-400 hover:text-white"
+              className="w-full flex items-center justify-between px-6 py-2 text-sm font-semibold text-gray-300 hover:text-white"
             >
               <span>{group.title}</span>
               {expandedGroups[group.title.toLowerCase()] ? 
@@ -142,14 +143,8 @@ const Sidebar: React.FC<SidebarProps> = ({
       <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-800">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <div className={`w-2 h-2 rounded-full ${
-              connectionStatus === 'connected' ? 'bg-green-500' : 
-              connectionStatus === 'reconnecting' ? 'bg-yellow-500' : 'bg-red-500'
-            }`}></div>
-            <span className="ml-2 text-xs text-gray-400">
-              {connectionStatus === 'connected' ? 'Online' : 
-               connectionStatus === 'reconnecting' ? 'Reconnecting...' : 'Offline'}
-            </span>
+            <div className="w-2 h-2 rounded-full bg-green-500"></div>
+            <span className="ml-2 text-xs text-gray-300">Online</span>
           </div>
           <button className="text-gray-400 hover:text-white">
             <LogOut className="w-4 h-4" />

@@ -339,7 +339,7 @@ const YearToDateKPIs: React.FC<YearToDateKPIsProps> = ({ trips }) => {
     const isGoodChange = title.includes('Operational') ? isNegative : isPositive;
 
     return (
-      <div className="kpi-card">
+      <div className="bg-white p-6 rounded-lg shadow border border-gray-200 hover:shadow-md transition-all">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
             <div className="p-2 rounded-lg bg-gray-50">
@@ -353,7 +353,7 @@ const YearToDateKPIs: React.FC<YearToDateKPIsProps> = ({ trips }) => {
           {/* 2025 Current */}
           <div>
             <div className="flex items-baseline space-x-2">
-              <span className="kpi-value">
+              <span className="text-2xl font-bold text-gray-900">
                 {formatValue(current)}
                 {suffix}
               </span>
@@ -618,7 +618,7 @@ const YearToDateKPIs: React.FC<YearToDateKPIsProps> = ({ trips }) => {
             <div>
               <h3 className="text-lg font-medium text-gray-900 mb-4">Operational Efficiency</h3>
               <div className="space-y-4">
-                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg border border-gray-200">
                   <span className="text-sm font-medium text-gray-700">Distance Coverage</span>
                   <div className="text-right">
                     <span className="text-lg font-bold text-purple-600">+{kmsChange.value.toLocaleString()} km</span>
@@ -626,7 +626,7 @@ const YearToDateKPIs: React.FC<YearToDateKPIsProps> = ({ trips }) => {
                   </div>
                 </div>
 
-                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg border border-gray-200">
                   <span className="text-sm font-medium text-gray-700">Cost Efficiency</span>
                   <div className="text-right">
                     <span className={`text-lg font-bold ${cpkChange.percentage < 0 ? 'text-green-600' : 'text-red-600'}`}>
@@ -639,7 +639,7 @@ const YearToDateKPIs: React.FC<YearToDateKPIsProps> = ({ trips }) => {
                   </div>
                 </div>
 
-                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg border border-gray-200">
                   <span className="text-sm font-medium text-gray-700">Revenue per KM</span>
                   <div className="text-right">
                     <span className={`text-lg font-bold ${ipkChange.percentage > 0 ? 'text-green-600' : 'text-red-600'}`}>
@@ -658,7 +658,7 @@ const YearToDateKPIs: React.FC<YearToDateKPIsProps> = ({ trips }) => {
             <div>
               <h3 className="text-lg font-medium text-gray-900 mb-4">Financial Performance</h3>
               <div className="space-y-4">
-                <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg">
+                <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg border border-green-200">
                   <span className="text-sm font-medium text-gray-700">Revenue Growth</span>
                   <div className="text-right">
                     <span className="text-lg font-bold text-green-600">+{formatCurrency(revenueChange.value, 'USD')}</span>
@@ -666,7 +666,7 @@ const YearToDateKPIs: React.FC<YearToDateKPIsProps> = ({ trips }) => {
                   </div>
                 </div>
 
-                <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+                <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg border border-blue-200">
                   <span className="text-sm font-medium text-gray-700">EBIT Improvement</span>
                   <div className="text-right">
                     <span className="text-lg font-bold text-blue-600">+{formatCurrency(ebitChange.value, 'USD')}</span>
@@ -674,7 +674,7 @@ const YearToDateKPIs: React.FC<YearToDateKPIsProps> = ({ trips }) => {
                   </div>
                 </div>
 
-                <div className="flex justify-between items-center p-3 bg-purple-50 rounded-lg">
+                <div className="flex justify-between items-center p-3 bg-purple-50 rounded-lg border border-purple-200">
                   <span className="text-sm font-medium text-gray-700">Net Profit Growth</span>
                   <div className="text-right">
                     <span className="text-lg font-bold text-purple-600">+{formatCurrency(netProfitChange.value, 'USD')}</span>

@@ -13,7 +13,7 @@ interface CardComponent extends React.FC<CardProps> {
 
 const Card: CardComponent = ({ children, className = '' }) => {
   return (
-    <div className={`card ${className}`}>
+    <div className={`bg-white rounded-lg shadow border border-gray-200 ${className}`}>
       {children}
     </div>
   );
@@ -35,12 +35,12 @@ export const CardHeader: React.FC<CardHeaderProps> = ({
   className = '' 
 }) => {
   return (
-    <div className={`card-header ${className}`}>
+    <div className={`px-6 py-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center ${className}`}>
       <div className="flex items-center gap-2">
-        {icon && <span className="text-xl">{icon}</span>}
+        {icon && <span className="text-blue-600">{icon}</span>}
         <div>
-          <h3 className="card-title">{title}</h3>
-          {subtitle && <p className="card-subtitle">{subtitle}</p>}
+          <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
+          {subtitle && <p className="text-sm text-gray-500 mt-0.5">{subtitle}</p>}
         </div>
       </div>
       {action && <div>{action}</div>}
@@ -58,7 +58,7 @@ export const CardContent: React.FC<CardContentProps> = ({
   className = '' 
 }) => {
   return (
-    <div className={`card-content ${className}`}>
+    <div className={`p-6 ${className}`}>
       {children}
     </div>
   );
@@ -74,7 +74,7 @@ const CardFooter: React.FC<CardFooterProps> = ({
   className = '' 
 }) => {
   return (
-    <div className={`px-6 py-3 bg-slate-50 border-t border-slate-200 ${className}`}>
+    <div className={`px-6 py-4 bg-gray-50 border-t border-gray-200 ${className}`}>
       {children}
     </div>
   );

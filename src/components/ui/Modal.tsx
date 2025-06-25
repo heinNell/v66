@@ -28,26 +28,23 @@ const Modal: React.FC<ModalProps> = ({
   };
 
   return (
-    <div className="modal-overlay">
-      {/* Modal panel */}
-      <div className={`modal-content ${maxWidthClasses[maxWidth]}`}>
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
+      <div className={`bg-white rounded-lg shadow-xl w-full ${maxWidthClasses[maxWidth]} max-h-[90vh] overflow-hidden flex flex-col`}>
         {/* Header */}
-        <div className="modal-header">
-          <h3 className="text-lg font-medium text-gray-900">
+        <div className="px-6 py-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
+          <h3 className="text-lg font-semibold text-gray-800">
             {title}
           </h3>
-          <Button
-            variant="outline"
-            size="sm"
+          <button
             onClick={onClose}
-            className="p-1"
+            className="text-gray-400 hover:text-gray-500 focus:outline-none"
           >
-            <X className="w-4 h-4" />
-          </Button>
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
         {/* Content */}
-        <div className="modal-body">
+        <div className="flex-1 overflow-y-auto p-6">
           {children}
         </div>
       </div>

@@ -30,7 +30,7 @@ export const Input: React.FC<InputProps> = ({
   className = ''
 }) => (
   <div className="mb-4">
-    <label className="block font-medium mb-1">
+    <label className="block text-sm font-medium text-gray-700 mb-1">
       {label} {required && <span className="text-red-500">*</span>}
     </label>
     <input
@@ -43,7 +43,7 @@ export const Input: React.FC<InputProps> = ({
       step={step}
       min={min}
       disabled={disabled}
-      className={`w-full border rounded px-3 py-2 ${error ? 'border-red-500' : ''} ${disabled ? 'bg-gray-100 cursor-not-allowed' : ''} ${className}`}
+      className={`w-full border rounded-md px-3 py-2 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${error ? 'border-red-500' : 'border-gray-300'} ${disabled ? 'bg-gray-100 cursor-not-allowed' : ''} ${className}`}
     />
     {error && <div className="text-red-500 text-xs mt-1">{error}</div>}
   </div>
@@ -78,7 +78,7 @@ export const Select: React.FC<SelectProps> = ({
   className = ''
 }) => (
   <div className="mb-4">
-    <label className="block font-medium mb-1">
+    <label className="block text-sm font-medium text-gray-700 mb-1">
       {label} {required && <span className="text-red-500">*</span>}
     </label>
     <select
@@ -87,9 +87,8 @@ export const Select: React.FC<SelectProps> = ({
       required={required}
       onBlur={onBlur}
       disabled={disabled}
-      className={`w-full border rounded px-3 py-2 ${error ? 'border-red-500' : ''} ${disabled ? 'bg-gray-100 cursor-not-allowed' : ''} ${className}`}
+      className={`w-full border rounded-md px-3 py-2 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${error ? 'border-red-500' : 'border-gray-300'} ${disabled ? 'bg-gray-100 cursor-not-allowed' : ''} ${className}`}
     >
-      <option value="">Select...</option>
       {options.map((opt) => (
         <option key={opt.value} value={opt.value}>
           {opt.label}
@@ -125,7 +124,7 @@ export const TextArea: React.FC<TextAreaProps> = ({
 }) => (
   <div className="flex flex-col">
     {label && (
-      <label className="mb-1 font-medium">
+      <label className="mb-1 text-sm font-medium text-gray-700">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
     )}
@@ -135,7 +134,7 @@ export const TextArea: React.FC<TextAreaProps> = ({
       placeholder={placeholder}
       rows={rows}
       disabled={disabled}
-      className={`border rounded p-2 focus:ring ${error ? 'border-red-500' : ''} ${disabled ? 'bg-gray-100 cursor-not-allowed' : ''} ${className}`}
+      className={`border rounded-md p-2 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${error ? 'border-red-500' : 'border-gray-300'} ${disabled ? 'bg-gray-100 cursor-not-allowed' : ''} ${className}`}
     />
     {error && <div className="text-red-500 text-xs mt-1">{error}</div>}
   </div>
@@ -161,7 +160,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   className = ''
 }) => (
   <div className={`flex flex-col ${className}`}>
-    {label && <label className="mb-1 font-medium">{label}</label>}
+    {label && <label className="mb-1 text-sm font-medium text-gray-700">{label}</label>}
     <input
       type="file"
       accept={accept}
@@ -170,7 +169,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
       className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 
         file:rounded-md file:border-0 file:text-sm file:font-medium 
         file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100
-        file:cursor-pointer cursor-pointer"
+        file:cursor-pointer cursor-pointer border border-gray-300 rounded-md"
     />
     {error && <div className="text-red-500 text-xs mt-1">{error}</div>}
   </div>

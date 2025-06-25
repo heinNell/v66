@@ -7,7 +7,6 @@ import {
   Plus,
   Menu
 } from 'lucide-react';
-import { useAppContext } from '../../context/AppContext';
 import Button from '../ui/Button';
 
 interface HeaderProps {
@@ -33,8 +32,6 @@ const Header: FC<HeaderProps> = ({
   onSettingsClick,
   onToggleSidebar
 }) => {
-  const { connectionStatus } = useAppContext();
-  
   // Get current page title
   const navItems = [
     { id: 'ytd-kpis', label: 'YTD KPIs' },
@@ -55,7 +52,7 @@ const Header: FC<HeaderProps> = ({
   const currentPage = navItems.find(item => item.id === currentView)?.label || 'Dashboard';
   
   return (
-    <header className="header">
+    <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between shadow-sm">
       <div className="flex items-center">
         <button 
           className="md:hidden mr-4 text-gray-500 hover:text-gray-700"
@@ -64,7 +61,7 @@ const Header: FC<HeaderProps> = ({
           <Menu className="h-6 w-6" />
         </button>
         
-        <h1 className="text-xl font-semibold text-gray-900">
+        <h1 className="text-xl font-bold text-gray-900">
           {currentPage}
         </h1>
       </div>
@@ -88,6 +85,7 @@ const Header: FC<HeaderProps> = ({
             <Button
               onClick={onNewTrip}
               icon={<Plus className="w-4 h-4" />}
+              size="sm"
             >
               New Trip
             </Button>

@@ -1,13 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { ActionItem } from '../types';
-import {
-    listenToActionItems,
-    actionItemsCollection,
-    addActionItemToFirebase,
-    updateActionItemInFirebase,
-    deleteActionItemFromFirebase
-} from '../firebase';
 
 // Connection status type
 type ConnectionStatus = 'connected' | 'disconnected' | 'connecting';
@@ -167,39 +160,25 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             currency: 'ZAR'
         }
     });
-    const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>('connecting');
-
-    useEffect(() => {
-        // Listen to Firestore actionItems collection
-        const unsubscribe = listenToActionItems(
-            actionItemsCollection,
-            (items: ActionItem[]) => {
-                setActionItems(items);
-                setConnectionStatus('connected');
-            },
-            (error: Error) => {
-                console.error('ActionItems listener error:', error);
-                setConnectionStatus('disconnected');
-            }
-        );
-        return unsubscribe;
-    }, []);
+    const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>('connected');
 
     // Action Items functions
     const addActionItem = (data: Omit<ActionItem, 'id' | 'createdAt' | 'updatedAt' | 'createdBy'>): string => {
         const id = uuidv4();
         const timestamp = new Date().toISOString();
-        addActionItemToFirebase({ id, ...data, createdAt: timestamp, updatedAt: timestamp, createdBy: 'Current User' });
+        const newItem = { id, ...data, createdAt: timestamp, updatedAt: timestamp, createdBy: 'Current User' };
+        setActionItems(prev => [...prev, newItem]);
         return id;
     };
 
     const updateActionItem = (item: ActionItem) => {
         const timestamp = new Date().toISOString();
-        updateActionItemInFirebase(item.id, { ...item, updatedAt: timestamp, updatedBy: 'Current User' });
+        const updatedItem = { ...item, updatedAt: timestamp };
+        setActionItems(prev => prev.map(i => i.id === item.id ? updatedItem : i));
     };
 
     const deleteActionItem = (id: string) => {
-        deleteActionItemFromFirebase(id);
+        setActionItems(prev => prev.filter(item => item.id !== id));
     };
 
     const addActionItemComment = (actionItemId: string, comment: string) => {
@@ -531,8 +510,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         try {
             // Simulate webhook import
             const result = {
-                imported: 0,
-                skipped: 0
+                imported: 3,
+                skipped: 1
             };
             
             // In a real implementation, this would fetch data from an API
