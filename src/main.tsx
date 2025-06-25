@@ -3,20 +3,15 @@ import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 
-// Preload critical assets
-const preloadAssets = async () => {
+// Initialize and render the app
+const initializeApp = async () => {
   try {
-    // Create a promise that resolves when the DOM is fully loaded
-    const domLoaded = new Promise<void>((resolve) => {
-      if (document.readyState === 'loading') {
+    // Wait for DOM to be ready if it's still loading
+    if (document.readyState === 'loading') {
+      await new Promise<void>((resolve) => {
         document.addEventListener('DOMContentLoaded', () => resolve());
-      } else {
-        resolve();
-      }
-    });
-
-    // Wait for DOM to be ready
-    await domLoaded;
+      });
+    }
     
     // Render the app
     const rootElement = document.getElementById('root');
@@ -42,18 +37,5 @@ const preloadAssets = async () => {
   }
 };
 
-// Start the app initialization
-preloadAssets();
-
-// Fallback rendering in case preloading takes too long
-setTimeout(() => {
-  const rootElement = document.getElementById('root');
-  if (rootElement && !rootElement.hasChildNodes()) {
-    console.log('Fallback rendering triggered');
-    createRoot(rootElement).render(
-      <StrictMode>
-        <App />
-      </StrictMode>
-    );
-  }
-}, 2000);
+// Start the app
+initializeApp();
