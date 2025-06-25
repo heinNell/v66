@@ -235,6 +235,7 @@ export interface Trip {
   followUpHistory?: any[];
   // ...other properties as needed
 }
+
 export interface MissedLoad {
   id: string;
   fleetNumber: string;
@@ -246,6 +247,8 @@ export interface MissedLoad {
   followUpActions?: string[];
   status?: 'pending' | 'resolved';
 }
+
 export interface Cost {
   type: string;
   amount: number;
+}
