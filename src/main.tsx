@@ -3,37 +3,46 @@ import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 
-// Preload the background image
-const preloadImage = (src: string) => {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.src = src;
-    img.onload = resolve;
-    img.onerror = reject;
-  });
-};
-
-// Preload critical assets before rendering
+// Preload critical assets
 const preloadAssets = async () => {
   try {
-    await preloadImage('/background.jpg');
-    console.log('Background image preloaded successfully');
+    // Create a promise that resolves when the DOM is fully loaded
+    const domLoaded = new Promise<void>((resolve) => {
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => resolve());
+      } else {
+        resolve();
+      }
+    });
+
+    // Wait for DOM to be ready
+    await domLoaded;
+    
+    // Render the app
+    const rootElement = document.getElementById('root');
+    if (rootElement) {
+      createRoot(rootElement).render(
+        <StrictMode>
+          <App />
+        </StrictMode>
+      );
+    }
   } catch (error) {
-    console.warn('Failed to preload background image:', error);
-  }
-  
-  // Render the app after preloading or after a timeout
-  const rootElement = document.getElementById('root');
-  if (rootElement) {
-    createRoot(rootElement).render(
-      <StrictMode>
-        <App />
-      </StrictMode>
-    );
+    console.error('Error during app initialization:', error);
+    
+    // Fallback rendering
+    const rootElement = document.getElementById('root');
+    if (rootElement) {
+      createRoot(rootElement).render(
+        <StrictMode>
+          <App />
+        </StrictMode>
+      );
+    }
   }
 };
 
-// Start preloading assets
+// Start the app initialization
 preloadAssets();
 
 // Fallback rendering in case preloading takes too long
