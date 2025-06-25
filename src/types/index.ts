@@ -29,6 +29,20 @@ export interface ActionItem {
 // Example responsible persons list
 export const RESPONSIBLE_PERSONS: string[] = ['Alice', 'Bob', 'Carol'];
 
+// Driver Behavior Event Types
+export const DRIVER_BEHAVIOR_EVENT_TYPES = [
+    { label: 'Speeding', value: 'speeding', points: 10, severity: 'High' },
+    { label: 'Harsh Braking', value: 'harsh_braking', points: 8, severity: 'Medium' },
+    { label: 'Harsh Acceleration', value: 'harsh_acceleration', points: 6, severity: 'Medium' },
+    { label: 'Sharp Cornering', value: 'sharp_cornering', points: 5, severity: 'Low' },
+    { label: 'Idling', value: 'idling', points: 3, severity: 'Low' },
+    { label: 'Unauthorized Stop', value: 'unauthorized_stop', points: 7, severity: 'Medium' },
+    { label: 'Route Deviation', value: 'route_deviation', points: 9, severity: 'High' },
+    { label: 'Fatigue Detection', value: 'fatigue_detection', points: 12, severity: 'High' },
+    { label: 'Mobile Phone Usage', value: 'mobile_usage', points: 15, severity: 'High' },
+    { label: 'Seatbelt Violation', value: 'seatbelt_violation', points: 8, severity: 'Medium' }
+];
+
 // Trip type and related constants
 export interface Trip {
   id: string;
