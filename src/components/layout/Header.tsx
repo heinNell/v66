@@ -13,7 +13,6 @@ import {
   Target,
   TrendingDown,
   Truck,
-  Upload,
   Users,
   Wifi,
   WifiOff,
@@ -64,19 +63,33 @@ const Header: FC<HeaderProps> = ({
     { id: 'driver-behavior', label: 'Driver Behavior', icon: Shield },
     { id: 'action-log', label: 'Action Log', icon: ClipboardList }
   ];
+  
+  // Get current page title
+  const currentPage = navItems.find(item => item.id === currentView)?.label || 'Dashboard';
+  
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo and Title */}
-          <div className="flex items-center">
+    <header className="bg-white shadow-sm border-b border-gray-200 ml-64">
+      <div className="px-6 py-4">
+        <div className="flex justify-between items-center">
+          {/* Page Title */}
+          <div>
             <h1 className="text-xl font-semibold text-gray-900">
-              {title}
+              {currentPage}
             </h1>
           </div>
 
-          {/* User Actions */}
+          {/* Action Buttons */}
           <div className="flex items-center space-x-4">
+            {/* New Trip Button - Only show on relevant pages */}
+            {(currentView === 'active-trips' || currentView === 'dashboard') && (
+              <Button
+                onClick={onNewTrip}
+                icon={<Plus className="w-4 h-4" />}
+              >
+                New Trip
+              </Button>
+            )}
+            
             {/* Notifications */}
             <Button
               variant="outline"

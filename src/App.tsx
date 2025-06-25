@@ -5,6 +5,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 // UI Components
 import Header from "./components/layout/Header";
 import Modal from "./components/ui/Modal";
+import Sidebar from "./components/layout/Sidebar";
 
 // Feature Components
 import Dashboard from "./components/dashboard/Dashboard";
@@ -52,7 +53,7 @@ const AppContent: React.FC = () => {
 
   // Initial load detection
   useEffect(() => {
-    if (trips.length > 0 && isInitialLoad) setIsInitialLoad(false);
+    if (trips && trips.length > 0 && isInitialLoad) setIsInitialLoad(false);
     const timer = setTimeout(() => {
       if (isInitialLoad) setIsInitialLoad(false);
     }, 5000);
@@ -166,9 +167,9 @@ const AppContent: React.FC = () => {
       case "dashboard":
         return <Dashboard trips={trips} />;
       case "active-trips":
-        return <ActiveTrips trips={trips.filter((t) => t.status === "active")} onEdit={handleEditTrip} onDelete={handleDeleteTrip} onView={handleViewTrip} />;
+        return <ActiveTrips trips={trips.filter((t) => t.status === "active")} onEdit={handleEditTrip} onDelete={handleDeleteTrip} onView={handleViewTrip} onCompleteTrip={completeTrip} />;
       case "completed-trips":
-        return <CompletedTrips trips={trips.filter((t) => ["completed", "invoiced", "paid"].includes(t.status))} onView={setSelectedTrip} />;
+        return <CompletedTrips trips={trips.filter((t) => ["completed", "invoiced", "paid"].includes(t.status || ""))} onView={setSelectedTrip} />;
       case "flags":
         return <FlagsInvestigations trips={trips} />;
       case "reports":
@@ -194,10 +195,20 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
-      <Header currentView={currentView} onNavigate={setCurrentView} onNewTrip={handleNewTrip} />
-      <main className="flex-1 p-8 ml-64 w-full">
-        {renderContent()}
-      </main>
+      <Sidebar currentView={currentView} onNavigate={setCurrentView} />
+      <div className="flex-1 flex flex-col">
+        <Header 
+          currentView={currentView} 
+          onNavigate={setCurrentView} 
+          onNewTrip={handleNewTrip} 
+          onProfileClick={() => console.log('Profile clicked')}
+          onNotificationsClick={() => console.log('Notifications clicked')}
+          onSettingsClick={() => console.log('Settings clicked')}
+        />
+        <main className="flex-1 p-8 ml-64 overflow-auto">
+          {renderContent()}
+        </main>
+      </div>
       <Modal
         isOpen={showTripForm}
         onClose={handleCloseTripForm}
@@ -223,32 +234,3 @@ const App: React.FC = () => (
 );
 
 export default App;
-
-export interface Trip {
-  route: ReactNode;
-  id: string;
-  fleetNumber: string;
-  status: string;
-  costs: any[]; // Replace with actual cost type
-  additionalCosts?: any[];
-  delayReasons?: any[];
-  followUpHistory?: any[];
-  // ...other properties as needed
-}
-
-export interface MissedLoad {
-  id: string;
-  fleetNumber: string;
-  clientName: string;
-  driverName: string;
-  route: string;
-  missedDate: string;
-  reason: string;
-  followUpActions?: string[];
-  status?: 'pending' | 'resolved';
-}
-
-export interface Cost {
-  type: string;
-  amount: number;
-}
