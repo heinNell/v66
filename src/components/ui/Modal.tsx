@@ -38,7 +38,7 @@ const Modal: React.FC<ModalProps> = ({
 
         {/* Modal panel */}
         <div className={`inline-block w-full ${maxWidthClasses[maxWidth]} p-6 my-8 
-          overflow-hidden text-left align-middle transition-all transform bg-white 
+          overflow-hidden text-left align-middle transition-all transform bg-white modal-content
           shadow-xl rounded-lg`}>
           
           {/* Header */}
