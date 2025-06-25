@@ -68,7 +68,7 @@ const ActiveTrips: React.FC<ActiveTripsProps> = ({ trips, onEdit, onDelete, onVi
 
   // Toggle trip selection
   const toggleTripSelection = (tripId: string) => {
-    setSelectedTripIds(prev =>
+    setSelectedTripIds(prev => 
       prev.includes(tripId)
         ? prev.filter(id => id !== tripId)
         : [...prev, tripId]
@@ -129,23 +129,23 @@ const ActiveTrips: React.FC<ActiveTripsProps> = ({ trips, onEdit, onDelete, onVi
           <p className="text-gray-500">{trips.length} active trip{trips.length !== 1 ? 's' : ''}</p>
         </div>
         <div className="flex space-x-3">
-          <Button
-            variant="outline"
+          <Button 
+            variant="outline" 
             onClick={() => setShowFilters(!showFilters)}
             icon={<Filter className="w-4 h-4" />}
           >
             {showFilters ? 'Hide Filters' : 'Show Filters'}
           </Button>
-          <Button
-            variant="outline"
+          <Button 
+            variant="outline" 
             onClick={() => setSelectMode(!selectMode)}
             icon={selectMode ? <CheckSquare className="w-4 h-4" /> : <Square className="w-4 h-4" />}
           >
             {selectMode ? 'Exit Selection' : 'Select Trips'}
           </Button>
           {selectMode && selectedTripIds.length > 0 && (
-            <Button
-              variant="danger"
+            <Button 
+              variant="danger" 
               onClick={handleBulkDelete}
               icon={<Trash2 className="w-4 h-4" />}
             >
@@ -209,8 +209,8 @@ const ActiveTrips: React.FC<ActiveTripsProps> = ({ trips, onEdit, onDelete, onVi
         <div className="text-center py-12">
           <h3 className="text-lg font-medium text-gray-900 mb-2">No active trips found</h3>
           <p className="text-gray-500">
-            {trips.length > 0
-              ? 'No trips match your current filter criteria.'
+            {trips.length > 0 
+              ? 'No trips match your current filter criteria.' 
               : 'Create your first trip or import data to start tracking.'}
           </p>
           {trips.length === 0 && (
@@ -227,9 +227,9 @@ const ActiveTrips: React.FC<ActiveTripsProps> = ({ trips, onEdit, onDelete, onVi
       {selectMode && filteredTrips.length > 0 && (
         <div className="bg-blue-50 p-4 rounded-lg border border-blue-200 flex justify-between items-center">
           <div className="flex items-center space-x-3">
-            <Button
-              size="sm"
-              variant="outline"
+            <Button 
+              size="sm" 
+              variant="outline" 
               onClick={toggleSelectAll}
               icon={selectedTripIds.length === filteredTrips.length ? <CheckSquare className="w-4 h-4" /> : <Square className="w-4 h-4" />}
             >
@@ -240,9 +240,9 @@ const ActiveTrips: React.FC<ActiveTripsProps> = ({ trips, onEdit, onDelete, onVi
             </span>
           </div>
           {selectedTripIds.length > 0 && (
-            <Button
-              size="sm"
-              variant="danger"
+            <Button 
+              size="sm" 
+              variant="danger" 
               onClick={handleBulkDelete}
               icon={<Trash2 className="w-4 h-4" />}
             >
@@ -261,7 +261,7 @@ const ActiveTrips: React.FC<ActiveTripsProps> = ({ trips, onEdit, onDelete, onVi
               <h3 className="text-xl font-semibold text-gray-800">{formatDateForHeader(date)}</h3>
               <span className="text-sm text-gray-500">({dateTrips.length} trips)</span>
             </div>
-
+            
             <div className="grid gap-4">
               {dateTrips.map((trip) => {
                 const currency = trip.revenueCurrency;
@@ -275,17 +275,18 @@ const ActiveTrips: React.FC<ActiveTripsProps> = ({ trips, onEdit, onDelete, onVi
                 const isSelected = selectedTripIds.includes(trip.id);
 
                 return (
-                  <Card
-                    key={trip.id}
-                    className={`hover:shadow-md transition-shadow ${selectMode && isSelected ? 'border-2 border-blue-500 bg-blue-50' : ''
-                      }`}
+                  <Card 
+                    key={trip.id} 
+                    className={`hover:shadow-md transition-shadow ${
+                      selectMode && isSelected ? 'border-2 border-blue-500 bg-blue-50' : ''
+                    }`}
                   >
                     <CardHeader
                       title={
                         <div className="flex items-center">
                           {selectMode && (
-                            <div
-                              className="mr-3 cursor-pointer"
+                            <div 
+                              className="mr-3 cursor-pointer" 
                               onClick={() => toggleTripSelection(trip.id)}
                             >
                               {isSelected ? (
@@ -343,7 +344,7 @@ const ActiveTrips: React.FC<ActiveTripsProps> = ({ trips, onEdit, onDelete, onVi
                           <Button size="sm" variant="outline" onClick={() => onView(trip)} icon={<Eye className="w-3 h-3" />}>View</Button>
                           <Button size="sm" variant="outline" onClick={() => handleEdit(trip)} icon={<Edit className="w-3 h-3" />}>Edit</Button>
                           <Button size="sm" variant="outline" onClick={() => handleDelete(trip.id)} icon={<Trash2 className="w-3 h-3" />}>Delete</Button>
-
+                          
                           {/* Status update buttons */}
                           <div className="flex space-x-2">
                             <Button
@@ -358,7 +359,7 @@ const ActiveTrips: React.FC<ActiveTripsProps> = ({ trips, onEdit, onDelete, onVi
                             >
                               Ship
                             </Button>
-
+                            
                             <Button
                               size="sm"
                               variant="outline"
@@ -372,7 +373,7 @@ const ActiveTrips: React.FC<ActiveTripsProps> = ({ trips, onEdit, onDelete, onVi
                               Deliver
                             </Button>
                           </div>
-
+                          
                           <Button
                             size="sm"
                             variant="success"
@@ -399,7 +400,7 @@ const ActiveTrips: React.FC<ActiveTripsProps> = ({ trips, onEdit, onDelete, onVi
       </div>
 
       <LoadImportModal isOpen={isImportModalOpen} onClose={closeImportModal} />
-
+      
       {/* Status Update Modal */}
       {statusUpdateTrip && (
         <TripStatusUpdateModal

@@ -4,7 +4,7 @@ import Card, { CardContent, CardHeader } from '../ui/Card';
 import Button from '../ui/Button';
 import { Input } from '../ui/FormElements';
 import Modal from '../ui/Modal';
-import { Settings, Save, X, AlertTriangle, Clock, Navigation, History, Shield, Bell, Calendar } from 'lucide-react';
+import { Settings, Save, X, AlertTriangle, DollarSign, Clock, Navigation, History, Shield, Bell, Calendar } from 'lucide-react';
 import { formatCurrency, formatDateTime } from '../../utils/helpers';
 import { useAppContext } from '../../context/AppContext';
 
@@ -26,7 +26,7 @@ const SystemCostConfiguration: React.FC<SystemCostConfigurationProps> = ({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [changeReason, setChangeReason] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  
   // NEW: Monthly reminder system state
   const [reminder, setReminder] = useState<SystemCostReminder>(DEFAULT_SYSTEM_COST_REMINDER);
   const [showReminderModal, setShowReminderModal] = useState(false);
@@ -47,7 +47,7 @@ const SystemCostConfiguration: React.FC<SystemCostConfigurationProps> = ({
         console.error("Error parsing saved system cost rates:", error);
       }
     }
-
+    
     // Load saved reminder settings
     const savedReminder = localStorage.getItem('systemCostReminder');
     if (savedReminder) {
@@ -65,7 +65,7 @@ const SystemCostConfiguration: React.FC<SystemCostConfigurationProps> = ({
     const checkMonthlyReminder = () => {
       const now = new Date();
       const nextReminderDate = new Date(reminder.nextReminderDate);
-
+      
       // If current date is past the reminder date and reminder is active
       if (now >= nextReminderDate && reminder.isActive) {
         setShowReminderNotification(true);
@@ -73,10 +73,10 @@ const SystemCostConfiguration: React.FC<SystemCostConfigurationProps> = ({
     };
 
     checkMonthlyReminder();
-
+    
     // Set up interval to check every hour
     const interval = setInterval(checkMonthlyReminder, 60 * 60 * 1000);
-
+    
     return () => clearInterval(interval);
   }, [reminder]);
 
@@ -84,17 +84,17 @@ const SystemCostConfiguration: React.FC<SystemCostConfigurationProps> = ({
   const handleDismissReminder = () => {
     const now = new Date();
     const nextReminder = new Date(now.getTime() + reminder.reminderFrequencyDays * 24 * 60 * 60 * 1000);
-
+    
     const updatedReminder = {
       ...reminder,
       lastReminderDate: now.toISOString(),
       nextReminderDate: nextReminder.toISOString(),
       updatedAt: now.toISOString()
     };
-
+    
     setReminder(updatedReminder);
     localStorage.setItem('systemCostReminder', JSON.stringify(updatedReminder));
-
+    
     setShowReminderNotification(false);
     alert(`Monthly indirect cost reminder dismissed.\n\nNext reminder will appear on: ${nextReminder.toLocaleDateString()}`);
   };
@@ -108,7 +108,7 @@ const SystemCostConfiguration: React.FC<SystemCostConfigurationProps> = ({
   const handleUpdateReminder = (newFrequency: number, isActive: boolean) => {
     const now = new Date();
     const nextReminder = new Date(now.getTime() + newFrequency * 24 * 60 * 60 * 1000);
-
+    
     const updatedReminder = {
       ...reminder,
       reminderFrequencyDays: newFrequency,
@@ -116,10 +116,10 @@ const SystemCostConfiguration: React.FC<SystemCostConfigurationProps> = ({
       nextReminderDate: nextReminder.toISOString(),
       updatedAt: now.toISOString()
     };
-
+    
     setReminder(updatedReminder);
     localStorage.setItem('systemCostReminder', JSON.stringify(updatedReminder));
-
+    
     setShowReminderModal(false);
     alert(`Reminder settings updated!\n\nFrequency: Every ${newFrequency} days\nStatus: ${isActive ? 'Active' : 'Disabled'}\nNext reminder: ${nextReminder.toLocaleDateString()}`);
   };
@@ -133,15 +133,15 @@ const SystemCostConfiguration: React.FC<SystemCostConfigurationProps> = ({
 
   const handleChange = (section: 'perKmCosts' | 'perDayCosts', field: string, value: string) => {
     if (!formData) return;
-
+    
     const numValue = parseFloat(value);
     if (isNaN(numValue) || numValue < 0) {
       setErrors(prev => ({ ...prev, [`${section}.${field}`]: 'Must be a valid positive number' }));
       return;
     }
-
+    
     setErrors(prev => ({ ...prev, [`${section}.${field}`]: '' }));
-
+    
     setFormData(prev => ({
       ...prev!,
       [section]: {
@@ -154,85 +154,85 @@ const SystemCostConfiguration: React.FC<SystemCostConfigurationProps> = ({
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
     if (!formData) return false;
-
+    
     // Validate change reason
     if (!changeReason.trim()) {
       newErrors.changeReason = 'Reason for rate change is required for audit purposes';
     }
-
+    
     // Validate per-KM costs
     Object.entries(formData.perKmCosts).forEach(([key, value]) => {
       if (value <= 0) {
         newErrors[`perKmCosts.${key}`] = 'Must be greater than 0';
       }
     });
-
+    
     // Validate per-day costs
     Object.entries(formData.perDayCosts).forEach(([key, value]) => {
       if (value <= 0) {
         newErrors[`perDayCosts.${key}`] = 'Must be greater than 0';
       }
     });
-
+    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const hasChanges = () => {
     if (!formData || !editingCurrency) return false;
-
+    
     const original = currentRates[editingCurrency];
-
+    
     // Check per-KM costs
     for (const [key, value] of Object.entries(formData.perKmCosts)) {
       if (value !== original.perKmCosts[key as keyof typeof original.perKmCosts]) {
         return true;
       }
     }
-
+    
     // Check per-day costs
     for (const [key, value] of Object.entries(formData.perDayCosts)) {
       if (value !== original.perDayCosts[key as keyof typeof original.perDayCosts]) {
         return true;
       }
     }
-
+    
     return false;
   };
 
   const handleSave = async () => {
     if (!formData || !editingCurrency || !validateForm()) return;
-
+    
     if (!hasChanges()) {
       setErrors({ general: 'No changes detected. Please make changes before saving.' });
       return;
     }
-
+    
     try {
       setIsSubmitting(true);
-
+      
       const updatedRates: SystemCostRates = {
         ...formData,
         lastUpdated: new Date().toISOString(),
         updatedBy: 'Current User', // In real app, use actual user
         effectiveDate: new Date().toISOString()
       };
-
+      
       await onUpdateRates(editingCurrency, updatedRates);
-
+      
       // Save to localStorage for persistence
       const updatedAllRates = {
         ...currentRates,
         [editingCurrency]: updatedRates
       };
       localStorage.setItem('systemCostRates', JSON.stringify(updatedAllRates));
-
+      
       setIsOpen(false);
       setEditingCurrency(null);
       setFormData(null);
       setChangeReason('');
       setErrors({});
-
+      
       alert(`${editingCurrency} indirect cost rates updated successfully!\n\nReason: ${changeReason}\n\nNew rates will apply to all trips created from now onwards. Historical trips retain their original rates.`);
     } catch (error) {
       console.error("Error saving system cost rates:", error);
@@ -304,7 +304,7 @@ const SystemCostConfiguration: React.FC<SystemCostConfigurationProps> = ({
 
       <div id="system-cost-section">
         <Card>
-          <CardHeader
+          <CardHeader 
             title="Indirect Cost Configuration"
             subtitle="Manage automatic operational cost rates for trip profitability calculation"
             icon={<Settings className="w-5 h-5 text-blue-600" />}
@@ -686,7 +686,7 @@ const ReminderConfigForm: React.FC<{
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-
+    
     const freqNum = parseInt(frequency);
     if (isNaN(freqNum) || freqNum < 1) {
       newErrors.frequency = 'Frequency must be at least 1 day';
@@ -694,7 +694,7 @@ const ReminderConfigForm: React.FC<{
     if (freqNum > 365) {
       newErrors.frequency = 'Frequency cannot exceed 365 days';
     }
-
+    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -737,6 +737,7 @@ const ReminderConfigForm: React.FC<{
           label="Reminder Frequency (days)"
           type="number"
           min="1"
+          max="365"
           value={frequency}
           onChange={(value: string) => setFrequency(value)}
           error={errors.frequency}

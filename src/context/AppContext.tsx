@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { ActionItem, SystemCostRates, DEFAULT_SYSTEM_COST_RATES } from '../types';
+import { ActionItem } from '../types';
 import {
     listenToActionItems,
     actionItemsCollection,
@@ -18,9 +18,6 @@ interface AppContextType {
     updateActionItem: (item: ActionItem) => void;
     deleteActionItem: (id: string) => void;
     connectionStatus: ConnectionStatus;
-    // System Cost Management
-    systemCostRates: Record<'USD' | 'ZAR', SystemCostRates>;
-    updateSystemCostRates: (currency: 'USD' | 'ZAR', rates: SystemCostRates) => Promise<void>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -28,7 +25,6 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [actionItems, setActionItems] = useState<ActionItem[]>([]);
     const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>('connecting');
-    const [systemCostRates, setSystemCostRates] = useState<Record<'USD' | 'ZAR', SystemCostRates>>(DEFAULT_SYSTEM_COST_RATES);
 
     useEffect(() => {
         // Listen to Firestore actionItems collection
@@ -43,20 +39,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
                 setConnectionStatus('disconnected');
             }
         );
-
-        // Load system cost rates from localStorage
-        const savedRates = localStorage.getItem('systemCostRates');
-        if (savedRates) {
-            try {
-                const parsedRates = JSON.parse(savedRates);
-                if (parsedRates.USD && parsedRates.ZAR) {
-                    setSystemCostRates(parsedRates);
-                }
-            } catch (error) {
-                console.error('Error parsing saved system cost rates:', error);
-            }
-        }
-
         return unsubscribe;
     }, []);
 
@@ -76,25 +58,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         deleteActionItemFromFirebase(id);
     };
 
-    const updateSystemCostRates = async (currency: 'USD' | 'ZAR', rates: SystemCostRates) => {
-        try {
-            // Update local state
-            setSystemCostRates(prev => ({ ...prev, [currency]: rates }));
-
-            // Save to localStorage for persistence
-            const updatedRates = { ...systemCostRates, [currency]: rates };
-            localStorage.setItem('systemCostRates', JSON.stringify(updatedRates));
-
-            // TODO: In production, save to Firestore collection 'systemCostRates'
-            // await saveSystemCostRatesToFirebase(currency, rates);
-        } catch (error) {
-            console.error('Error updating system cost rates:', error);
-            throw error;
-        }
-    };
-
     return (
-        <AppContext.Provider value={{ actionItems, addActionItem, updateActionItem, deleteActionItem, connectionStatus, systemCostRates, updateSystemCostRates }}>
+        <AppContext.Provider value={{ actionItems, addActionItem, updateActionItem, deleteActionItem, connectionStatus }}>
             {children}
         </AppContext.Provider>
     );
