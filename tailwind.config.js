@@ -33,8 +33,8 @@ export default {
           900: '#134e4a',
         },
         sidebar: {
-          DEFAULT: '#1e293b',
-          hover: '#334155',
+          DEFAULT: '#1e3a8a',
+          hover: '#2563eb',
           active: '#3b82f6',
         }
       },
@@ -44,6 +44,7 @@ export default {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'sidebar-gradient': 'linear-gradient(to bottom, #1e3a8a, #1e4b8a)',
       },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
@@ -101,6 +102,7 @@ export default {
     'bg-blue-500',
     'bg-blue-600',
     'bg-blue-700',
+    'bg-blue-800',
     'text-blue-500',
     'text-blue-600',
     'text-blue-700',
@@ -152,6 +154,11 @@ export default {
     'text-purple-500',
     'text-purple-600',
     'text-purple-700',
-    'text-purple-800'
+    'text-purple-800',
+    'hover:shadow',
+    'hover:shadow-md',
+    'shadow-sm',
+    'shadow',
+    'shadow-md'
   ]
 }

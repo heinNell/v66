@@ -8,6 +8,7 @@ import {
   Menu
 } from 'lucide-react';
 import Button from '../ui/Button';
+import SyncIndicator from '../ui/SyncIndicator';
 
 interface HeaderProps {
   currentView: string;
@@ -55,7 +56,7 @@ const Header: FC<HeaderProps> = ({
     <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between shadow-sm">
       <div className="flex items-center">
         <button 
-          className="md:hidden mr-4 text-gray-500 hover:text-gray-700"
+          className="md:hidden mr-4 text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-1"
           onClick={onToggleSidebar}
         >
           <Menu className="h-6 w-6" />
@@ -64,6 +65,10 @@ const Header: FC<HeaderProps> = ({
         <h1 className="text-xl font-bold text-gray-900">
           {currentPage}
         </h1>
+        
+        <div className="ml-4">
+          <SyncIndicator />
+        </div>
       </div>
       
       <div className="flex items-center space-x-4">
@@ -74,7 +79,7 @@ const Header: FC<HeaderProps> = ({
           <input
             type="text"
             placeholder="Search..."
-            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
           />
         </div>
         
@@ -117,7 +122,7 @@ const Header: FC<HeaderProps> = ({
               onClick={onProfileClick}
               className="flex items-center space-x-2 p-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white">
+              <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white shadow-md">
                 <UserRound className="h-5 w-5" />
               </div>
               <span className="text-sm font-medium hidden md:block">{userName}</span>

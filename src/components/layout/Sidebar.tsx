@@ -94,7 +94,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   return (
     <aside className={`sidebar ${collapsed ? 'sidebar-collapsed' : ''}`}>
       <div className="sidebar-logo">
-        <div className="w-10 h-10 bg-yellow-500 rounded-md flex items-center justify-center text-white font-bold text-xl">
+        <div className="w-10 h-10 bg-yellow-500 rounded-md flex items-center justify-center text-white font-bold text-xl shadow-md">
           MT
         </div>
         <div className="ml-3">
@@ -126,7 +126,11 @@ const Sidebar: React.FC<SidebarProps> = ({
                     <li key={item.id}>
                       <button
                         onClick={() => onNavigate(item.id)}
-                        className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
+                        className={`w-full flex items-center px-6 py-2.5 text-sm transition-colors duration-200 ${
+                          isActive 
+                            ? 'bg-blue-700 text-white font-medium border-l-4 border-blue-300 pl-5' 
+                            : 'text-gray-300 hover:bg-blue-800 hover:text-white'
+                        }`}
                       >
                         <Icon className="w-5 h-5 mr-3" />
                         <span>{item.label}</span>

@@ -10,6 +10,7 @@ import {
   Award,
   BarChart3,
   Calendar,
+  CheckCircle,
   Clock,
   DollarSign,
   Download,
@@ -21,7 +22,7 @@ import {
   TrendingUp,
   X
 } from 'lucide-react';
-import { formatCurrency, calculateTotalCosts } from '../../utils/helpers';
+import { formatCurrency, formatDate } from '../../utils/helpers';
 
 
 interface YTDMetrics {
@@ -160,7 +161,7 @@ const YearToDateKPIs: React.FC<YearToDateKPIsProps> = ({ trips }) => {
       }
 
       const week = weeklyData[weekKey];
-      const tripCosts = calculateTotalCosts(trip.costs);
+      const tripCosts = calculateTotalCosts(trip.costs || []);
       const additionalCosts = trip.additionalCosts?.reduce((sum, cost) => sum + cost.amount, 0) || 0;
       const totalTripCosts = tripCosts + additionalCosts;
 
@@ -261,12 +262,6 @@ const YearToDateKPIs: React.FC<YearToDateKPIsProps> = ({ trips }) => {
       [editingYear]: updatedData
     }));
 
-    // Save to localStorage for persistence
-    localStorage.setItem('ytdData', JSON.stringify({
-      ...ytdData,
-      [editingYear]: updatedData
-    }));
-
     setShowEditModal(false);
     setEditingYear(null);
     setFormData({});
@@ -342,10 +337,10 @@ const YearToDateKPIs: React.FC<YearToDateKPIsProps> = ({ trips }) => {
       <div className="bg-white p-6 rounded-lg shadow border border-gray-200 hover:shadow-md transition-all">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
-            <div className="p-2 rounded-lg bg-gray-50">
+            <div className="p-2 rounded-lg bg-gray-50 border border-gray-200">
               <Icon className={`w-6 h-6 ${colorClass}`} />
             </div>
-            <h3 className="text-sm font-medium text-gray-600">{title}</h3>
+            <h3 className="text-sm font-medium text-gray-700">{title}</h3>
           </div>
         </div>
 
@@ -566,34 +561,34 @@ const YearToDateKPIs: React.FC<YearToDateKPIsProps> = ({ trips }) => {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b border-gray-200">
-                    <th className="text-left py-3 text-sm font-medium text-gray-500">Week</th>
-                    <th className="text-left py-3 text-sm font-medium text-gray-500">Period</th>
-                    <th className="text-right py-3 text-sm font-medium text-gray-500">Trips</th>
-                    <th className="text-right py-3 text-sm font-medium text-gray-500">Revenue</th>
-                    <th className="text-center py-3 text-sm font-medium text-gray-500">Currency</th>
-                    <th className="text-right py-3 text-sm font-medium text-gray-500">Costs</th>
-                    <th className="text-right py-3 text-sm font-medium text-gray-500">Gross Profit</th>
-                    <th className="text-right py-3 text-sm font-medium text-gray-500">Margin %</th>
-                    <th className="text-right py-3 text-sm font-medium text-gray-500">KM</th>
-                    <th className="text-right py-3 text-sm font-medium text-gray-500">IPK</th>
-                    <th className="text-right py-3 text-sm font-medium text-gray-500">CPK</th>
+                  <tr className="border-b border-gray-200 bg-gray-50">
+                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Week</th>
+                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Period</th>
+                    <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">Trips</th>
+                    <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">Revenue</th>
+                    <th className="text-center py-3 px-4 text-sm font-medium text-gray-500">Currency</th>
+                    <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">Costs</th>
+                    <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">Gross Profit</th>
+                    <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">Margin %</th>
+                    <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">KM</th>
+                    <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">IPK</th>
+                    <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">CPK</th>
                   </tr>
                 </thead>
                 <tbody>
                   {weeklyMetrics.slice(0, 6).map((week, index) => (
-                    <tr key={`${week.weekStart}-${week.weekNumber}-${week.currency}`} className="border-b border-gray-100 hover:bg-gray-50">
-                      <td className="py-3 text-sm font-medium text-gray-900">Week {week.weekNumber}</td>
-                      <td className="py-3 text-sm text-gray-900">{new Date(week.weekStart).toLocaleDateString()} - {new Date(week.weekEnd).toLocaleDateString()}</td>
-                      <td className="py-3 text-sm text-gray-900 text-right">{week.tripCount}</td>
-                      <td className="py-3 text-sm font-medium text-green-600 text-right">{formatCurrency(week.totalRevenue, week.currency)}</td>
-                      <td className="py-3 text-sm text-gray-900 text-center">{week.currency}</td>
-                      <td className="py-3 text-sm font-medium text-red-600 text-right">{formatCurrency(week.totalCosts, week.currency)}</td>
-                      <td className={`py-3 text-sm font-medium text-right ${week.grossProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>{formatCurrency(week.grossProfit, week.currency)}</td>
-                      <td className={`py-3 text-sm font-medium text-right ${week.profitMargin >= 0 ? 'text-green-600' : 'text-red-600'}`}>{week.profitMargin.toFixed(1)}%</td>
-                      <td className="py-3 text-sm text-gray-900 text-right">{week.totalKilometers.toLocaleString()}</td>
-                      <td className="py-3 text-sm text-gray-900 text-right">{formatCurrency(week.ipk, week.currency)}</td>
-                      <td className="py-3 text-sm text-gray-900 text-right">{formatCurrency(week.cpk, week.currency)}</td>
+                    <tr key={`${week.weekStart}-${week.weekNumber}-${week.currency}`} className={`border-b border-gray-100 hover:bg-gray-50 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}>
+                      <td className="py-3 px-4 text-sm font-medium text-gray-900">Week {week.weekNumber}</td>
+                      <td className="py-3 px-4 text-sm text-gray-900">{new Date(week.weekStart).toLocaleDateString()} - {new Date(week.weekEnd).toLocaleDateString()}</td>
+                      <td className="py-3 px-4 text-sm text-gray-900 text-right">{week.tripCount}</td>
+                      <td className="py-3 px-4 text-sm font-medium text-green-600 text-right">{formatCurrency(week.totalRevenue, week.currency)}</td>
+                      <td className="py-3 px-4 text-sm text-gray-900 text-center">{week.currency}</td>
+                      <td className="py-3 px-4 text-sm font-medium text-red-600 text-right">{formatCurrency(week.totalCosts, week.currency)}</td>
+                      <td className={`py-3 px-4 text-sm font-medium text-right ${week.grossProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>{formatCurrency(week.grossProfit, week.currency)}</td>
+                      <td className={`py-3 px-4 text-sm font-medium text-right ${week.profitMargin >= 0 ? 'text-green-600' : 'text-red-600'}`}>{week.profitMargin.toFixed(1)}%</td>
+                      <td className="py-3 px-4 text-sm text-gray-900 text-right">{week.totalKilometers.toLocaleString()}</td>
+                      <td className="py-3 px-4 text-sm text-gray-900 text-right">{formatCurrency(week.ipk, week.currency)}</td>
+                      <td className="py-3 px-4 text-sm text-gray-900 text-right">{formatCurrency(week.cpk, week.currency)}</td>
                     </tr>
                   ))}
                 </tbody>

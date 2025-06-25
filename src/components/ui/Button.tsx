@@ -28,19 +28,19 @@ const Button: React.FC<ButtonProps> = ({
   // Variant classes
   switch (variant) {
     case 'primary':
-      buttonClasses += ' bg-blue-700 hover:bg-blue-800 text-white border border-blue-800';
+      buttonClasses += ' bg-blue-700 hover:bg-blue-800 text-white border border-blue-800 hover:shadow';
       break;
     case 'secondary':
-      buttonClasses += ' bg-gray-100 hover:bg-gray-200 text-gray-800 border border-gray-300';
+      buttonClasses += ' bg-gray-100 hover:bg-gray-200 text-gray-800 border border-gray-300 hover:shadow';
       break;
     case 'outline':
-      buttonClasses += ' bg-white hover:bg-gray-50 text-gray-700 border border-gray-300';
+      buttonClasses += ' bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 hover:shadow';
       break;
     case 'danger':
-      buttonClasses += ' bg-red-600 hover:bg-red-700 text-white border border-red-700';
+      buttonClasses += ' bg-red-600 hover:bg-red-700 text-white border border-red-700 hover:shadow';
       break;
     case 'success':
-      buttonClasses += ' bg-green-600 hover:bg-green-700 text-white border border-green-700';
+      buttonClasses += ' bg-green-600 hover:bg-green-700 text-white border border-green-700 hover:shadow';
       break;
   }
   
