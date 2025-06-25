@@ -18,7 +18,6 @@ import {
   LogOut
 } from 'lucide-react';
 import { useAppContext } from '../../context/AppContext';
-import logo from '/logo.png';
 
 interface SidebarProps {
   currentView: string;
@@ -87,22 +86,20 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onNavigate }) => {
   ];
 
   return (
-    <aside className="w-64 h-screen fixed top-0 left-0 bg-gray-900 text-white shadow-lg z-20 overflow-y-auto">
-      <div className="p-6 border-b border-gray-800">
-        <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-yellow-500 rounded-md flex items-center justify-center text-white font-bold text-xl">
-            MT
-          </div>
-          <div>
-            <h1 className="text-xl font-bold text-white">Matanuska</h1>
-            <p className="text-sm text-gray-400">Transport Management</p>
-          </div>
+    <aside className="sidebar">
+      <div className="sidebar-logo">
+        <div className="w-10 h-10 bg-yellow-500 rounded-md flex items-center justify-center text-white font-bold text-xl">
+          MT
+        </div>
+        <div className="ml-3">
+          <h1 className="text-xl font-bold text-white">Matanuska</h1>
+          <p className="text-sm text-gray-400">Transport Management</p>
         </div>
       </div>
       
       <nav className="mt-6">
         {navGroups.map((group) => (
-          <div key={group.title} className="mb-4">
+          <div key={group.title} className="sidebar-nav-group">
             <button 
               onClick={() => toggleGroup(group.title.toLowerCase())}
               className="w-full flex items-center justify-between px-6 py-2 text-sm font-semibold text-gray-400 hover:text-white"
@@ -118,15 +115,12 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onNavigate }) => {
               <ul className="mt-1 space-y-1">
                 {group.items.map((item) => {
                   const Icon = item.icon;
+                  const isActive = currentView === item.id;
                   return (
                     <li key={item.id}>
                       <button
                         onClick={() => onNavigate(item.id)}
-                        className={`w-full flex items-center px-8 py-3 text-sm font-medium transition-colors ${
-                          currentView === item.id
-                            ? 'text-white bg-blue-600 border-l-4 border-blue-400'
-                            : 'text-gray-300 hover:bg-gray-800 hover:text-white'
-                        }`}
+                        className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
                       >
                         <Icon className="w-5 h-5 mr-3" />
                         {item.label}

@@ -29,27 +29,18 @@ import { Trip, MissedLoad } from "./types";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "./firebase";
 
-// If LoginPage or ConnectionStatus do not exist, comment these out or provide fallback
-// import LoginPage from "./components/auth/LoginPage";
-// import ConnectionStatus from "./components/ui/ConnectionStatus";
-
 const AppContent: React.FC = () => {
-  // Replace with your actual authentication logic or remove if not needed
-  // const { isAuthenticated, isLoading } = useReplitAuth();
   const { 
     trips, setTrips, missedLoads, addMissedLoad, updateMissedLoad, deleteMissedLoad,
     updateTrip, deleteTrip, completeTrip, systemCostRates, updateSystemCostRates
   } = useAppContext();
-
-  // Remove or replace with your actual auth logic
-  // if (isLoading) return <div>Loading...</div>;
-  // if (!isAuthenticated) return <LoginPage />;
 
   const [currentView, setCurrentView] = useState("ytd-kpis");
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
   const [showTripForm, setShowTripForm] = useState(false);
   const [editingTrip, setEditingTrip] = useState<Trip | undefined>();
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Initial load detection
   useEffect(() => {
@@ -132,6 +123,10 @@ const AppContent: React.FC = () => {
     setEditingTrip(undefined);
   };
 
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   // MissedLoadsTracker expects async handlers, so wrap context methods in async wrappers
   const handleAddMissedLoad = async (missedLoad: Omit<MissedLoad, 'id'>) => {
     return Promise.resolve(addMissedLoad(missedLoad));
@@ -194,9 +189,10 @@ const AppContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex">
+    <div className="flex min-h-screen bg-gray-100">
       <Sidebar currentView={currentView} onNavigate={setCurrentView} />
-      <div className="flex-1 flex flex-col ml-64">
+      
+      <div className="main-content">
         <Header 
           currentView={currentView} 
           onNavigate={setCurrentView} 
@@ -204,11 +200,14 @@ const AppContent: React.FC = () => {
           onProfileClick={() => console.log('Profile clicked')}
           onNotificationsClick={() => console.log('Notifications clicked')}
           onSettingsClick={() => console.log('Settings clicked')}
+          onToggleSidebar={toggleSidebar}
         />
-        <main className="flex-1 p-6 overflow-auto">
+        
+        <main className="p-6">
           {renderContent()}
         </main>
       </div>
+      
       <Modal
         isOpen={showTripForm}
         onClose={handleCloseTripForm}
